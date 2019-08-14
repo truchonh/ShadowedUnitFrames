@@ -1,38 +1,17 @@
 local Range = {
 	friendly = {
-		["PRIEST"] = {
-			(GetSpellInfo(527)), -- Purify
-			(GetSpellInfo(17)), -- Power Word: Shield
-		},
-		["DRUID"] = {
-			(GetSpellInfo(774)), -- Rejuvenation
-			(GetSpellInfo(2782)), -- Remove Corruption
-		},
+		["PRIEST"] = GetSpellInfo(139), -- Renew
+		["DRUID"] = GetSpellInfo(774), -- Rejuvenation
 		["PALADIN"] = GetSpellInfo(19750), -- Flash of Light
-		["SHAMAN"] = GetSpellInfo(8004), -- Healing Surge
+		["SHAMAN"] = GetSpellInfo(331), -- Healing Wave
 		["WARLOCK"] = GetSpellInfo(5697), -- Unending Breath
-		["DEATHKNIGHT"] = GetSpellInfo(47541), -- Death Coil
-		["MONK"] = GetSpellInfo(115450), -- Detox
+		["MAGE"] = GetSpellInfo(604), -- Dampen Magic
 	},
 	hostile = {
-		["DEATHKNIGHT"] = {
-			(GetSpellInfo(47541)), -- Death Coil
-			(GetSpellInfo(49576)), -- Death Grip
-		},
-		["DEMONHUNTER"] = GetSpellInfo(185123), -- Throw Glaive
-		["DRUID"] = GetSpellInfo(8921),  -- Moonfire
-		["HUNTER"] = {
-			(GetSpellInfo(193455)), -- Cobra Shot
-			(GetSpellInfo(19434)), -- Aimed Short
-			(GetSpellInfo(193265)), -- Hatchet Toss
-		},
-		["MAGE"] = {
-			(GetSpellInfo(116)), -- Frostbolt
-			(GetSpellInfo(30451)), -- Arcane Blast
-			(GetSpellInfo(133)), -- Fireball
-		},
-		["MONK"] = GetSpellInfo(115546), -- Provoke
-		["PALADIN"] = GetSpellInfo(62124), -- Hand of Reckoning
+		["DRUID"] = GetSpellInfo(5176),  -- Wrath
+		["HUNTER"] = GetSpellInfo(1978), -- Serpent Sting
+		["MAGE"] = GetSpellInfo(133), -- Fireball
+		--["PALADIN"] = GetSpellInfo(62124), -- Hand of Reckoning
 		["PRIEST"] = GetSpellInfo(585), -- Smite
 		--["ROGUE"] = GetSpellInfo(1725), -- Distract
 		["SHAMAN"] = GetSpellInfo(403), -- Lightning Bolt
@@ -124,7 +103,7 @@ function Range:OnEnable(frame)
 		frame.range = CreateFrame("Frame", nil, frame)
 	end
 
-	frame:RegisterNormalEvent("PLAYER_SPECIALIZATION_CHANGED", self, "SpellChecks")
+	frame:RegisterNormalEvent("CHARACTER_POINTS_CHANGED", self, "SpellChecks")
 	frame:RegisterUpdateFunc(self, "ForceUpdate")
 
 	createTimer(frame)
