@@ -562,11 +562,6 @@ local function ClassToken(self)
 	return (select(2, UnitClass(self.unit)))
 end
 
-local function ArenaClassToken(self)
-	local specID = GetArenaOpponentSpec(self.unitID)
-	return specID and select(6, GetSpecializationInfoByID(specID))
-end
-
 function Units:CreateUnit(...)
 	local frame = select("#", ...) > 1 and CreateFrame(...) or select(1, ...)
 	frame.fullUpdates = {}
@@ -1037,9 +1032,6 @@ function Units:LoadZoneHeader(type)
 			RegisterUnitWatch(child, child.hasStateWatch)
 		end
 
-		if( type == "arena" ) then
-			self:InitializeArena()
-		end
 		return
 	end
 
@@ -1072,8 +1064,6 @@ function Units:LoadZoneHeader(type)
 		frame:SetAttribute("unitID", id)
 		frame:Hide()
 
-		-- Override with our arena specific concerns
-		frame.UnitClassToken = ArenaClassToken
 		frame:SetScript("OnShow", OnShowForced)
 
 		headerFrame.children[id] = frame
@@ -1144,10 +1134,6 @@ function Units:LoadZoneHeader(type)
 
 	self:SetHeaderAttributes(headerFrame, type)
 	ShadowUF.Layout:AnchorFrame(UIParent, headerFrame, ShadowUF.db.profile.positions[type])
-
-	if( type == "arena" ) then
-		self:InitializeArena()
-	end
 end
 
 -- Load a unit that is a child of another unit (party pet/party target)
@@ -1310,21 +1296,6 @@ function Units:CreateBar(parent)
 	return bar
 end
 
--- Handle showing for the arena prep frames
-function Units:InitializeArena()
-	if( not headerFrames.arena or InCombatLockdown() ) then return end
-
-	local specs = GetNumArenaOpponentSpecs()
-	if( not specs or specs == 0 ) then return end
-
-	for i=1, specs do
-		local frame = headerFrames.arena.children[i]
-		frame:SetAttribute("state-unitexists", true)
-		frame:Show()
-		frame:FullUpdate()
-	end
-end
-
 -- Deal with zone changes for enabling modules
 local instanceType, queueZoneCheck
 function Units:CheckPlayerZone(force)
@@ -1389,8 +1360,6 @@ centralFrame:RegisterEvent("ZONE_CHANGED_NEW_AREA")
 centralFrame:RegisterEvent("PLAYER_LOGIN")
 centralFrame:RegisterEvent("PLAYER_LEVEL_UP")
 centralFrame:RegisterEvent("CINEMATIC_STOP")
-centralFrame:RegisterEvent("ARENA_PREP_OPPONENT_SPECIALIZATIONS")
-centralFrame:RegisterEvent("ARENA_OPPONENT_UPDATE")
 centralFrame:SetScript("OnEvent", function(self, event, unit)
 	-- Check if the player changed zone types and we need to change module status, while they are dead
 	-- we won't change their zone type as releasing from an instance will change the zone type without them
@@ -1402,10 +1371,6 @@ centralFrame:SetScript("OnEvent", function(self, event, unit)
 			self:UnregisterEvent("PLAYER_UNGHOST")
 			Units:CheckPlayerZone()
 		end
-
-	-- Force update frames
-	elseif( event == "ARENA_PREP_OPPONENT_SPECIALIZATIONS" or event == "ARENA_OPPONENT_UPDATE" ) then
-		Units:InitializeArena()
 
 	-- They're alive again so they "officially" changed zone types now
 	elseif( event == "PLAYER_UNGHOST" ) then
