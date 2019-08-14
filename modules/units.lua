@@ -829,7 +829,6 @@ function Units:LoadUnit(unit)
 
 	local frame = self:CreateUnit("Button", "SUFUnit" .. unit, petBattleFrame, "SecureUnitButtonTemplate")
 	frame:SetAttribute("unit", unit)
-	frame.hasStateWatch = unit == "pet"
 
 	-- Annd lets get this going
 	RegisterUnitWatch(frame, frame.hasStateWatch)
