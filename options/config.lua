@@ -3447,7 +3447,8 @@ local function loadUnitOptions()
 						type = "group",
 						inline = false,
 						name = L["Cast bar"],
-						hidden = hideRestrictedOption,
+						--hidden = hideRestrictedOption,
+						hidden = true,
 						args = {
 							enabled = {
 								order = 1,
