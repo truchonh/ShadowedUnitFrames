@@ -241,7 +241,6 @@ end
 local function SetVisibility(self)
 	local layoutUpdate
 	local instanceType = select(2, IsInInstance()) or "none"
-	local playerSpec = GetSpecialization()
 	if( instanceType == "scenario" ) then instanceType = "party" end
 
 	-- Selectively disable modules
@@ -272,9 +271,6 @@ local function SetVisibility(self)
 
 			-- Force disable modules for people who aren't the appropriate class
 			if( module.moduleClass and module.moduleClass ~= playerClass ) then
-				enabled = nil
-			-- Force disable if they aren't the appropriate spec
-			elseif( module.moduleSpec and module.moduleSpec[playerSpec] ~= true ) then
 				enabled = nil
 			end
 
