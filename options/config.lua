@@ -22,7 +22,7 @@ ShadowUF.Config = Config
 
 local unitCategories = {
 	player = {"player", "pet"},
-	general = {"target", "targettarget", "targettargettarget", "focus", "focustarget", "pettarget"},
+	general = {"target", "targettarget", "targettargettarget", "pettarget"},
 	party = {"party", "partypet", "partytarget", "partytargettarget", "party"},
 	raid = {"raid", "raidpet"},
 	raidmisc = {"maintank", "maintanktarget", "maintanktargettarget", "mainassist", "mainassisttarget", "mainassisttargettarget"},
@@ -1616,7 +1616,6 @@ local function loadHideOptions()
 					player = Config.hideTable,
 					pet = Config.hideTable,
 					target = Config.hideTable,
-					focus = Config.hideTable,
 					boss = Config.hideTable,
 					arena = Config.hideTable,
 					playerAltPower = Config.hideTable,
@@ -2754,7 +2753,7 @@ local function loadUnitOptions()
 								name = L["For target/focus"],
 								desc = L["Highlight units that you are targeting or have focused."],
 								arg = "highlight.attention",
-								hidden = function(info) return info[2] == "target" or info[2] == "focus" end,
+								hidden = function(info) return info[2] == "target" end,
 							},
 							aggro = {
 								order = 5,
@@ -2778,7 +2777,7 @@ local function loadUnitOptions()
 								name = L["On rare mobs"],
 								desc = L["Highlight units that are rare."],
 								arg = "highlight.rareMob",
-								hidden = function(info) return not (info[2] == "target" or info[2] == "focus" or info[2] == "targettarget" or info[3] == "focustarget") end,
+								hidden = function(info) return not (info[2] == "target" or info[2] == "targettarget") end,
 							},
 							elitemob = {
 								order = 6.15,
@@ -2786,14 +2785,14 @@ local function loadUnitOptions()
 								name = L["On elite mobs"],
 								desc = L["Highlight units that are "],
 								arg = "highlight.eliteMob",
-								hidden = function(info) return not (info[2] == "target" or info[2] == "focus" or info[2] == "targettarget" or info[3] == "focustarget") end,
+								hidden = function(info) return not (info[2] == "target" or info[2] == "targettarget") end,
 							},
 							sep = {
 								order = 6.5,
 								type = "description",
 								name = "",
 								width = "full",
-								hidden = function(info) return not (ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]]) and not (info[2] == "target" or info[2] == "focus" or info[2] == "targettarget" or info[3] == "focustarget") end,
+								hidden = function(info) return not (ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]]) and not (info[2] == "target" or info[2] == "targettarget") end,
 							},
 							alpha = {
 								order = 7,

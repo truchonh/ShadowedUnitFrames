@@ -30,10 +30,10 @@ local function createConfigEnv()
 		UnitLevel = function(unit) return MAX_PLAYER_LEVEL end,
 		UnitIsPlayer = function(unit) return unit ~= "boss" and unit ~= "pet" and not string.match(unit, "(%w+)pet") end,
 		UnitHealth = function(unit) return getValue("UnitHealth", unit, math.random(20000, 50000)) end,
-		UnitIsQuestBoss = function(unit) return unit == "target" or unit == "focus" end,
-		UnitIsWildBattlePet = function(unit) return unit == "target" or unit == "focus" end,
+		UnitIsQuestBoss = function(unit) return unit == "target" end,
+		UnitIsWildBattlePet = function(unit) return unit == "target" end,
 		UnitBattlePetType = function(unit)
-			if( unit == "target" or unit == "focus" ) then
+			if( unit == "target" ) then
 				return getValue("UnitBattlePetType", unit, math.random(#(PET_TYPE_SUFFIX)))
 			end
 		end,

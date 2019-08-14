@@ -530,12 +530,6 @@ OnAttributeChanged = function(self, name, unit)
 		self:RegisterNormalEvent("PLAYER_TARGET_CHANGED", Units, "CheckUnitStatus")
 		self:RegisterUnitEvent("UNIT_TARGETABLE_CHANGED", self, "FullUpdate")
 
-	-- Automatically do a full update on focus change
-	elseif( self.unit == "focus" ) then
-		self.isUnitVolatile = true
-		self:RegisterNormalEvent("PLAYER_FOCUS_CHANGED", Units, "CheckUnitStatus")
-		self:RegisterUnitEvent("UNIT_TARGETABLE_CHANGED", self, "FullUpdate")
-
 	elseif( self.unit == "player" ) then
 		-- this should not get called in combat, but just in case make sure we are not actually in combat
 		if not InCombatLockdown() then
@@ -591,9 +585,6 @@ OnAttributeChanged = function(self, name, unit)
 			self.unitRealOwner = ShadowUF.arenaUnits[self.unitID]
 		elseif( self.unitRealType == "arenatargettarget" ) then
 			self.unitRealOwner = ShadowUF.arenaUnits[self.unitID] .. "target"
-		elseif( self.unit == "focustarget" ) then
-			self.unitRealOwner = "focus"
-			self:RegisterNormalEvent("PLAYER_FOCUS_CHANGED", Units, "CheckUnitStatus")
 		elseif( self.unit == "targettarget" or self.unit == "targettargettarget" ) then
 			self.unitRealOwner = "target"
 			self:RegisterNormalEvent("PLAYER_TARGET_CHANGED", Units, "CheckUnitStatus")

@@ -80,7 +80,7 @@ function Highlight:OnEnable(frame)
 		frame:RegisterUpdateFunc(self, "UpdateThreat")
 	end
 
-	if( ShadowUF.db.profile.units[frame.unitType].highlight.attention and frame.unitType ~= "target" and frame.unitType ~= "focus" ) then
+	if( ShadowUF.db.profile.units[frame.unitType].highlight.attention and frame.unitType ~= "target" ) then
 		frame:RegisterNormalEvent("PLAYER_TARGET_CHANGED", self, "UpdateAttention")
 		frame:RegisterNormalEvent("PLAYER_FOCUS_CHANGED", self, "UpdateAttention")
 		frame:RegisterUpdateFunc(self, "UpdateAttention")
@@ -164,7 +164,7 @@ function Highlight:UpdateThreat(frame)
 end
 
 function Highlight:UpdateAttention(frame)
-	frame.highlight.hasAttention = UnitIsUnit(frame.unit, "target") or UnitIsUnit(frame.unit, "focus") or nil
+	frame.highlight.hasAttention = UnitIsUnit(frame.unit, "target") or nil
 	self:Update(frame)
 end
 
