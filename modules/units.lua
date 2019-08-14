@@ -756,7 +756,7 @@ function Units:SetHeaderAttributes(frame, type)
 		frame:SetAttribute("roleFilter", config.roleFilter)
 
 		if( config.groupBy == "CLASS" ) then
-			frame:SetAttribute("groupingOrder", "DEATHKNIGHT,DEMONHUNTER,DRUID,HUNTER,MAGE,PALADIN,PRIEST,ROGUE,SHAMAN,WARLOCK,WARRIOR,MONK")
+			frame:SetAttribute("groupingOrder", "DRUID,HUNTER,MAGE,PALADIN,PRIEST,ROGUE,SHAMAN,WARLOCK,WARRIOR")
 			frame:SetAttribute("groupBy", "CLASS")
 		elseif( config.groupBy == "ASSIGNEDROLE" ) then
 			frame:SetAttribute("groupingOrder", "TANK,HEALER,DAMAGER,NONE")

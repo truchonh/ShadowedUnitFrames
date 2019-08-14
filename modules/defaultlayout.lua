@@ -278,9 +278,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			attribAnchorPoint = "LEFT",
 			healthBar = {reactionType = "none"},
 			powerBar = {height = 0.30},
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			indicators = {
 				pvp = {anchorTo = "$parent", anchorPoint = "BL", size = 22, x = 0, y = 11},
 				masterLoot = {anchorTo = "$parent", anchorPoint = "TR", size = 12, x = -2, y = -10},
@@ -310,9 +307,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			attribAnchorPoint = "LEFT",
 			healthBar = {reactionType = "none"},
 			powerBar = {height = 0.30},
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			indicators = {
 				pvp = {anchorTo = "$parent", anchorPoint = "BL", size = 22, x = 0, y = 11},
 				masterLoot = {anchorTo = "$parent", anchorPoint = "TR", size = 12, x = -2, y = -10},
@@ -336,21 +330,9 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			castBar = {order = 60},
 			xpBar = {order = 55},
 			fader = {enabled = false, combatAlpha = 1.0, inactiveAlpha = 0.6},
-			runeBar = {enabled = true, background = false, height = 0.40, order = 70},
 			totemBar = {enabled = true, background = false, height = 0.40, order = 70},
 			druidBar = {enabled = true, background = true, height = 0.40, order = 70},
-			priestBar = {enabled = true, background = true, height = 0.40, order = 70},
-			shamanBar = {enabled = true, background = true, height = 0.40, order = 70},
 			comboPoints = {enabled = true, anchorTo = "$parent", order = 60, anchorPoint = "BR", x = -3, y = 8, size = 14, spacing = -4, growth = "LEFT", isBar = true, height = 0.40},
-			auraPoints = {enabled = false, showAlways = true, anchorTo = "$parent", order = 60, anchorPoint = "BR", x = -3, y = 8, size = 14, spacing = -4, growth = "LEFT", isBar = true, height = 0.40},
-			staggerBar = {enabled = true, background = true, height = 0.30, order = 70},
-			soulShards = {anchorTo = "$parent", order = 60, height = 0.40, anchorPoint = "BR", x = -8, y = 6, size = 12, spacing = -2, growth = "LEFT", isBar = true, showAlways = true},
-			holyPower = {anchorTo = "$parent", order = 60, height = 0.40, anchorPoint = "BR", x = -3, y = 6, size = 14, spacing = -4, growth = "LEFT", isBar = true, showAlways = true},
-			chi = {anchorTo = "$parent", order = 60, height = 0.40, anchorPoint = "BR", x = -3, y = 6, size = 14, spacing = -4, growth = "LEFT", isBar = true, showAlways = true},
-			arcaneCharges = {anchorTo = "$parent", order = 60, height = 0.40, anchorPoint = "BR", x = -8, y = 6, size = 12, spacing = -2, growth = "LEFT", isBar = true, showAlways = true},
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			indicators = {
                 resurrect = {enabled = true, anchorPoint = "LC", size = 28, x = 37, y = -1, anchorTo = "$parent"},
 			},
@@ -364,10 +346,7 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 				{text = "[perpp]"},
 				{text = "[curmaxpp]"},
 				{text = "[(()afk() )][name][( ()group())]"},
-				{text = ""},
-				{enabled = true, width = 1, name = L["Timer Text"], text = "[totem:timer]", anchorTo = "$totemBar", anchorPoint = "C", x = 0, y = 0, size = 0, default = true, block = true},
-				{enabled = true, width = 1, name = L["Timer Text"], text = "[rune:timer]", anchorTo = "$runeBar", anchorPoint = "C", size = 0, x = 0, y = 0, default = true, block = true},
-				{enabled = true, width = 1, name = L["Text"], text = "[monk:abs:stagger]", anchorTo = "$staggerBar", anchorPoint = "C", size = 0, x = 0, y = 0, default = true}
+				{text = ""}
 			},
 		},
 		party = {
@@ -381,9 +360,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			portrait = {enabled = true, fullAfter = 50},
 			castBar = {order = 60},
 			offset = 23,
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			indicators = {
                 resurrect = {enabled = true, anchorPoint = "LC", size = 28, x = 37, y = -1, anchorTo = "$parent"},
                 phase = {enabled = true, anchorPoint = "RC", size = 14, x = -11, y = 0, anchorTo = "$parent"}
@@ -465,7 +441,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			altPower = {enabled = false},
 			castBar = {order = 60},
 			offset = 25,
-			healAbsorb = {cap = 1},
 			auras = {
 				buffs = {enabled = true, maxRows = 1, perRow = 9},
 				debuffs = {enabled = true, maxRows = 1, perRow = 9},
@@ -629,9 +604,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			unitsPerColumn = 5,
 			maxColumns = 1,
 			columnSpacing = 5,
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			portrait = {enabled = false, fullAfter = 50},
 			castBar = {order = 60},
 			indicators = {
@@ -694,9 +666,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			unitsPerColumn = 5,
 			maxColumns = 1,
 			columnSpacing = 5,
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			portrait = {enabled = false, fullAfter = 50},
 			castBar = {order = 60},
 			indicators = {
@@ -806,9 +775,6 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 			height = 45,
 			scale = 1.0,
 			portrait = {enabled = true, alignment = "RIGHT", fullAfter = 50},
-			incHeal = {cap = 1},
-			incAbsorb = {cap = 1},
-			healAbsorb = {cap = 1},
 			castBar = {order = 60},
 			comboPoints = {enabled = false, anchorTo = "$parent", order = 60, anchorPoint = "BR", x = -3, y = 8, size = 14, spacing = -4, growth = "LEFT", isBar = true, height = 0.40},
 			indicators = {

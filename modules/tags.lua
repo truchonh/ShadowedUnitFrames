@@ -733,18 +733,6 @@ Tags.defaultTags = {
 			return ShadowUF.L["Offline"]
 		end
 	end]],
-	["sshards"] = [[function(unit, unitOwner)
-		local points = UnitPower(ShadowUF.playerUnit, Enum.PowerType.SoulShards)
-		return points and points > 0 and points
-	end]],
-	["hpower"] = [[function(unit, unitOwner)
-		local points = UnitPower(ShadowUF.playerUnit, Enum.PowerType.HolyPower)
-		return points and points > 0 and points
-	end]],
-	["monk:chipoints"] = [[function(unit, unitOwner)
-		local points = UnitPower(ShadowUF.playerUnit, Enum.PowerType.Chi)
-		return points and points > 0 and points
-	end]],
 	["cpoints"] = [[function(unit, unitOwner)
 		return UnitPower("player", Enum.PowerType.ComboPoints)
 	end]],
@@ -906,51 +894,6 @@ Tags.defaultTags = {
 
 		return UnitPower(unit, Enum.PowerType.Mana)
 	end]],
-	["per:incheal"] = [[function(unit, unitOwner, fontString)
-		local heal = UnitGetIncomingHeals(unit)
-		local maxHealth = UnitHealthMax(unit)
-		return heal and heal > 0 and maxHealth > 0 and string.format("%d%%", (heal / maxHealth) * 100)
-	end]],
-	["abs:incheal"] = [[function(unit, unitOwner, fontString)
-	    local heal = UnitGetIncomingHeals(unit)
-		return heal and heal > 0 and string.format("%d", heal)
-	end]],
-	["incheal"] = [[function(unit, unitOwner, fontString)
-	    local heal = UnitGetIncomingHeals(unit)
-		return heal and heal > 0 and ShadowUF:FormatLargeNumber(heal)
-	end]],
-	["incheal:name"] = [[function(unit, unitOwner, fontString)
-	    local heal = UnitGetIncomingHeals(unit)
-		return heal and heal > 0 and string.format("+%d", heal) or ShadowUF.tagFunc.name(unit, unitOwner, fontString)
-	end]],
-	["monk:abs:stagger"] = [[function(unit, unitOwner)
-		local stagger = UnitStagger(unit)
-		return stagger and stagger > 0 and stagger
-	end]],
-	["monk:stagger"] = [[function(unit, unitOwner)
-		local stagger = UnitStagger(unit)
-		return stagger and stagger > 0 and ShadowUF:FormatLargeNumber(stagger)
-	end]],
-	["abs:incabsorb"] = [[function(unit, unitOwner, fontString)
-	    local absorb = UnitGetTotalAbsorbs(unit)
-		return absorb and absorb > 0 and absorb
-	end]],
-	["incabsorb"] = [[function(unit, unitOwner, fontString)
-	    local absorb = UnitGetTotalAbsorbs(unit)
-		return absorb and absorb > 0 and ShadowUF:FormatLargeNumber(absorb)
-	end]],
-	["incabsorb:name"] = [[function(unit, unitOwner, fontString)
-	    local absorb = UnitGetTotalAbsorbs(unit)
-		return absorb and absorb > 0 and string.format("+%d", absorb) or ShadowUF.tagFunc.name(unit, unitOwner, fontString)
-	end]],
-	["abs:healabsorb"] = [[function(unit, unitOwner, fontString)
-	    local absorb = UnitGetTotalHealAbsorbs(unit)
-		return absorb and absorb > 0 and absorb
-	end]],
-	["healabsorb"] = [[function(unit, unitOwner, fontString)
-	    local absorb = UnitGetTotalHealAbsorbs(unit)
-		return absorb and absorb > 0 and ShadowUF:FormatLargeNumber(absorb)
-	end]],
 	["unit:raid:targeting"] = [[function(unit, unitOwner, fontString)
 		if( GetNumGroupMembers() == 0 ) then return nil end
 		local guid = UnitGUID(unit)
@@ -989,15 +932,6 @@ Tags.defaultEvents = {
 	["short:druidform"]			= "UNIT_AURA",
 	["druidform"]				= "UNIT_AURA",
 	["guild"]					= "UNIT_NAME_UPDATE",
-	["per:incheal"]				= "UNIT_HEAL_PREDICTION",
-	["abs:incheal"]				= "UNIT_HEAL_PREDICTION",
-	["incheal:name"]			= "UNIT_HEAL_PREDICTION",
-	["incheal"]					= "UNIT_HEAL_PREDICTION",
-	["abs:incabsorb"]			= "UNIT_ABSORB_AMOUNT_CHANGED",
-	["incabsorb"]				= "UNIT_ABSORB_AMOUNT_CHANGED",
-	["incabsorb:name"]			= "UNIT_ABSORB_AMOUNT_CHANGED",
-	["abs:healabsorb"]			= "UNIT_HEAL_ABSORB_AMOUNT_CHANGED",
-	["healabsorb"]				= "UNIT_HEAL_ABSORB_AMOUNT_CHANGED",
 	-- ["crtabs"]				= "CRTABS",
 	-- ["abs:crtabs"]			= "CRTABS",
 	-- ["crtabs:name"]			= "CRTABS",
@@ -1048,7 +982,6 @@ Tags.defaultEvents = {
 	["shortclassification"] 	= "UNIT_CLASSIFICATION_CHANGED",
 	["dechp"]					= "UNIT_HEALTH UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH",
 	["group"]					= "GROUP_ROSTER_UPDATE",
-	["monk:chipoints"]			= "SUF_POWERTYPE:LIGHT_FORCE UNIT_POWER_FREQUENT",
 }
 
 -- Default update frequencies for tag updating, used if it's needed to override the update speed
@@ -1060,8 +993,6 @@ Tags.defaultFrequents = {
 	["pvp:time"] = 1,
 	["unit:raid:targeting"] = 0.50,
 	["unit:raid:assist"] = 0.50,
-	["monk:stagger"] = 0.25,
-	["monk:abs:stagger"] = 0.25
 }
 
 -- Default tag categories
@@ -1069,13 +1000,6 @@ Tags.defaultCategories = {
 	["totem:timer"]				= "classtimer",
 	["rune:timer"]				= "classtimer",
 	["hp:color"]				= "health",
-	["abs:incabsorb"]			= "health",
-	["incabsorb"]				= "health",
-	["incabsorb:name"]			= "health",
-	["per:incheal"]				= "health",
-	["abs:incheal"]				= "health",
-	["incheal"]					= "health",
-	["incheal:name"]			= "health",
 	["smart:curmaxhp"]			= "health",
 	["smart:curmaxpp"]			= "health",
 	["afk"]						= "status",
@@ -1139,9 +1063,6 @@ Tags.defaultCategories = {
 	["hpower"]					= "classspec",
 	["unit:raid:assist"]		= "raid",
 	["unit:raid:targeting"] 	= "raid",
-	["monk:chipoints"]			= "classspec",
-	["monk:stagger"]			= "classspec",
-	["monk:abs:stagger"]		= "classspec"
 }
 
 -- Default tag help
@@ -1155,12 +1076,6 @@ Tags.defaultHelp = {
 	["guild"]					= L["Show's the units guild name if they are in a guild."],
 	["short:druidform"]			= L["Short version of [druidform], C = Cat, B = Bear, F = Flight and so on."],
 	["druidform"]				= L["Returns the units current form if they are a druid, Cat for Cat Form, Moonkin for Moonkin and so on."],
-	["per:incheal"]				= L["Percent of the players current health that's being healed, if they have 100,000 total health and 15,000 is incoming then 15% is shown."],
-	["abs:incheal"]				= L["Absolute incoming heal value, if 10,000 healing is incoming it will show 10,000."],
-	["incheal"]					= L["Shorten incoming heal value, if 13,000 healing is incoming it will show 13k."],
-	["abs:healabsorb"]			= L["Absolute heal absorb value, if 16,000 healing will be absorbed, it will show 16,000."],
-	["healabsorb"]				= L["Shorten heal absorb value, if 17,000 healing will be absorbed, it will show 17k."],
-	["incheal:name"]			= L["If the unit has heals incoming, it will show the absolute incoming heal value, otherwise it will show the units name."],
 	["smart:curmaxhp"]			= L["Smart number formating for [curmaxhp], numbers below 1,000,000 are left as is, numbers above 1,000,000 will use the short version such as 1m."],
 	["smart:curmaxpp"]			= L["Smart number formating for [curmaxpp], numbers below 1,000,000 are left as is, numbers above 1,000,000 will use the short version such as 1m."],
 	["pvp:time"]				= L["Shows how long until your PVP flag drops, will not show if the flag is manually on or you are in a hostile zone.|n|nThis will only work for yourself, you cannot use it to see the time left on your party or raid."],
@@ -1221,9 +1136,6 @@ Tags.defaultHelp = {
 	["sec:absolutepp"]			= string.format(L["Works the same as [%s], but always shows mana and is only shown if mana is a secondary power."], "absolutepp"),
 	["unit:raid:targeting"]		= L["How many people in your raid are targeting the unit, for example if you put this on yourself it will show how many people are targeting you. This includes you in the count!"],
 	["unit:raid:assist"]		= L["How many people are assisting the unit, for example if you put this on yourself it will show how many people are targeting your target. This includes you in the count!"],
-	["monk:chipoints"]			= L["How many Chi points you currently have."],
-	["monk:stagger"]			= L["Shows the current staggered damage, if 12,000 damage is staggered, shows 12k."],
-	["monk:abs:stagger"]		= L["Shows the absolute staggered damage, if 16,000 damage is staggered, shows 16,000."]
 }
 
 Tags.defaultNames = {
@@ -1305,9 +1217,6 @@ Tags.defaultNames = {
 	["sec:absolutepp"]			= L["Cur/Max power (Secondary/Absolute)"],
 	["unit:raid:targeting"]		= L["Raid targeting unit"],
 	["unit:raid:assist"]		= L["Raid assisting unit"],
-	["monk:chipoints"]			= L["Chi Points"],
-	["monk:stagger"]			= L["Stagger (Monk)"],
-	["monk:abs:stagger"]		= L["Stagger (Monk/Absolute)"]
 }
 
 -- List of event types
