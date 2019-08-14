@@ -35,7 +35,6 @@ function Health:OnEnable(frame)
 	frame:RegisterUnitEvent("UNIT_MAXHEALTH", self, "Update")
 	frame:RegisterUnitEvent("UNIT_CONNECTION", self, "Update")
 	frame:RegisterUnitEvent("UNIT_FACTION", self, "UpdateColor")
-	frame:RegisterUnitEvent("UNIT_THREAT_SITUATION_UPDATE", self, "UpdateColor")
 	frame:RegisterUnitEvent("UNIT_HEALTH_FREQUENT", self, "Update")
 	frame:RegisterUnitEvent("UNIT_TARGETABLE_CHANGED", self, "UpdateColor")
 
@@ -92,9 +91,6 @@ function Health:UpdateColor(frame)
 		return
 	elseif( ShadowUF.db.profile.units[frame.unitType].healthBar.colorDispel and frame.healthBar.hasDebuff ) then
 		color = DebuffTypeColor[frame.healthBar.hasDebuff]
-	elseif( ShadowUF.db.profile.units[frame.unitType].healthBar.colorAggro and UnitThreatSituation(frame.unit) == 3 ) then
-		frame:SetBarColor("healthBar", ShadowUF.db.profile.healthColors.aggro.r, ShadowUF.db.profile.healthColors.aggro.g, ShadowUF.db.profile.healthColors.aggro.b)
-		return
 	elseif( not UnitPlayerControlled(unit) and UnitIsTapDenied(unit) and UnitCanAttack("player", unit) ) then
 		color = ShadowUF.db.profile.healthColors.tapped
 	elseif( not UnitPlayerOrPetInRaid(unit) and not UnitPlayerOrPetInParty(unit) and ( ( ( reactionType == "player" or reactionType == "both" ) and UnitIsPlayer(unit) and not UnitIsFriend(unit, "player") ) or ( ( reactionType == "npc" or reactionType == "both" )  and not UnitIsPlayer(unit) ) ) ) then
