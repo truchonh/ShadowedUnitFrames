@@ -107,7 +107,7 @@ end
 
 function XP:UpdateXP(frame)
 	-- At the level cap or XP is disabled, or the pet is actually a vehicle right now, swap to reputation bar (or hide it)
-	if( UnitLevel(frame.unitOwner) == MAX_PLAYER_LEVEL or IsXPUserDisabled() or ( frame.unitOwner == "pet" and UnitExists("vehicle") ) ) then
+	if( UnitLevel(frame.unitOwner) == MAX_PLAYER_LEVEL or IsXPUserDisabled() ) then
 		frame.xpBar.xp:Hide()
 		return
 	end

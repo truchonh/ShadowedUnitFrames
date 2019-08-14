@@ -817,16 +817,7 @@ Tags.defaultTags = {
 		return points and points > 0 and points
 	end]],
 	["cpoints"] = [[function(unit, unitOwner)
-		if( UnitHasVehicleUI("player") and UnitHasVehiclePlayerFrameUI("player") ) then
-			local points = GetComboPoints("vehicle")
-			if( points == 0 ) then
-				points = GetComboPoints("vehicle", "vehicle")
-			end
-
-			return points
-		else
-			return UnitPower("player", Enum.PowerType.ComboPoints)
-		end
+		return UnitPower("player", Enum.PowerType.ComboPoints)
 	end]],
 	["smartlevel"] = [[function(unit, unitOwner)
 		local classif = UnitClassification(unit)
