@@ -726,10 +726,6 @@ function ShadowUF:HideBlizzardFrames()
 		PlayerFrame:SetDontSavePosition(true)
 	end
 
-	if( self.db.profile.hidden.playerPower and not active_hiddens.playerPower ) then
-		basicHideBlizzardFrames(PriestBarFrame, RuneFrame, WarlockPowerFrame, MonkHarmonyBarFrame, PaladinPowerBarFrame, MageArcaneChargesFrame)
-	end
-
 	if( self.db.profile.hidden.pet and not active_hiddens.pet ) then
 		hideBlizzardFrames(false, PetFrame)
 	end
