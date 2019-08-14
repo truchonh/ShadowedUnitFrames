@@ -4,65 +4,6 @@ local FADE_TIME = 0.30
 
 ShadowUF:RegisterModule(Cast, "castBar", L["Cast bar"], true)
 
--- I'm not really thrilled with this method of detecting fake unit casts, mostly because it's inefficient and ugly
-local function monitorFakeCast(self)
-	local spell, displayName, icon, startTime, endTime, isTradeSkill, castID, notInterruptible, spellID = UnitCastingInfo(self.parent.unit)
-	local isChannelled
-	if( not spell ) then
-		spell, displayName, icon, startTime, endTime, isTradeSkill, notInterruptible, spellID = UnitChannelInfo(self.parent.unit)
-		isChannelled = true
-	end
-
-	-- Cast started
-	if( not self.endTime and endTime ) then
-		self.endTime = endTime
-		self.notInterruptible = notInterruptible
-		self.spellName = spell
-		self.spellID = spellID
-		Cast:UpdateCast(self.parent, self.parent.unit, isChannelled, spell, displayName, icon, startTime, endTime, isTradeSkill, notInterruptible, spellID, castID)
-	-- Cast stopped
-	elseif( self.endTime and not endTime ) then
-		if( GetTime() <= (self.endTime / 1000) ) then
-			Cast:EventInterruptCast(self.parent, nil, self.parent.unit, nil, self.spellID)
-		end
-
-		self.notInterruptible = nil
-		self.spellName = nil
-		self.endTime = nil
-		return
-	end
-
-	-- Cast delayed
-	if( self.endTime and endTime ~= self.endTime ) then
-		self.endTime = endTime
-		Cast:UpdateDelay(self.parent, spell, displayName, icon, startTime, endTime)
-	end
-
-	-- Cast interruptible status changed
-	if( self.spellName and self.notInterruptible ~= notInterruptible ) then
-		self.notInterruptible = notInterruptible
-		if( notInterruptible ) then
-			Cast:EventUninterruptible(self.parent)
-		else
-			Cast:EventInterruptible(self.parent)
-		end
-	end
-end
-
-local function createFakeCastMonitor(frame)
-	if( not frame.castBar.monitor ) then
-		frame.castBar.monitor = C_Timer.NewTicker(0.10, monitorFakeCast)
-		frame.castBar.monitor.parent = frame
-	end
-end
-
-local function cancelFakeCastMonitor(frame)
-	if( frame.castBar and frame.castBar.monitor ) then
-		frame.castBar.monitor:Cancel()
-		frame.castBar.monitor = nil
-	end
-end
-
 function Cast:OnEnable(frame)
 	if( not frame.castBar ) then
 		frame.castBar = CreateFrame("Frame", nil, frame)
@@ -74,12 +15,6 @@ function Cast:OnEnable(frame)
 		frame.castBar.icon = frame.castBar.bar:CreateTexture(nil, "ARTWORK")
 		frame.castBar.bar.name = frame.castBar.bar:CreateFontString(nil, "ARTWORK")
 		frame.castBar.bar.time = frame.castBar.bar:CreateFontString(nil, "ARTWORK")
-	end
-
-	if( ShadowUF.fakeUnits[frame.unitType] ) then
-		createFakeCastMonitor(frame)
-		frame:RegisterUpdateFunc(self, "UpdateFakeCast")
-		return
 	end
 
 	frame:RegisterUnitEvent("UNIT_SPELLCAST_START", self, "EventUpdateCast")
@@ -94,8 +29,8 @@ function Cast:OnEnable(frame)
 	--frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_INTERRUPTED", self, "EventInterruptCast")
 	frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", self, "EventDelayChannel")
 
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_INTERRUPTIBLE", self, "EventInterruptible")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", self, "EventUninterruptible")
+	--frame:RegisterUnitEvent("UNIT_SPELLCAST_INTERRUPTIBLE", self, "EventInterruptible")
+	--frame:RegisterUnitEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", self, "EventUninterruptible")
 
 	frame:RegisterUpdateFunc(self, "UpdateCurrentCast")
 end
@@ -177,8 +112,6 @@ function Cast:OnDisable(frame, unit)
 	frame:UnregisterAll(self)
 
 	if( frame.castBar ) then
-		cancelFakeCastMonitor(frame)
-
 		frame.castBar.bar.name:Hide()
 		frame.castBar.bar.time:Hide()
 		frame.castBar.bar:Hide()
@@ -467,12 +400,3 @@ function Cast:UpdateCast(frame, unit, channelled, spell, displayName, icon, star
 	end
 end
 
--- Trigger checks on fake cast
-function Cast:UpdateFakeCast(f)
-	local monitor = f.castBar.monitor
-	monitor.endTime = nil
-	monitor.notInterruptible = nil
-	monitor.spellName = nil
-	monitor.spellID = nil
-	monitorFakeCast(monitor)
-end

@@ -39,7 +39,7 @@ modules\power.lua
 modules\portrait.lua
 modules\indicators.lua
 modules\xp.lua
-modules\cast.lua
+#modules\cast.lua
 modules\auras.lua
 modules\auraindicators.lua
 modules\combattext.lua
