@@ -82,14 +82,8 @@ function Indicators:UpdateLeader(frame)
 	if( not frame.indicators.leader or not frame.indicators.leader.enabled ) then return end
 
 	if( UnitIsGroupLeader(frame.unit) ) then
-		if( HasLFGRestrictions() ) then
-			frame.indicators.leader:SetTexture("Interface\\LFGFrame\\UI-LFG-ICON-PORTRAITROLES")
-			frame.indicators.leader:SetTexCoord(0, 0.296875, 0.015625, 0.3125)
-		else
-			frame.indicators.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
-			frame.indicators.leader:SetTexCoord(0, 1, 0, 1)
-		end
-
+		frame.indicators.leader:SetTexture("Interface\\GroupFrame\\UI-Group-LeaderIcon")
+		frame.indicators.leader:SetTexCoord(0, 1, 0, 1)
 		frame.indicators.leader:Show()
 
 	elseif( UnitIsGroupAssistant(frame.unit) or ( UnitInRaid(frame.unit) and IsEveryoneAssistant() ) ) then
