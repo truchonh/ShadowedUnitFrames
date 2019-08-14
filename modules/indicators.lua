@@ -320,7 +320,7 @@ function Indicators:OnEnable(frame)
 	end
 
 	-- As they all share the function, register it as long as one is active
-	if( frame.indicators.leader or frame.indicators.masterLoot or frame.indicators.role or ( frame.unit ~= "player" and frame.indicators.lfdRole ) ) then
+	if( frame.indicators.leader or frame.indicators.masterLoot or frame.indicators.role ) then
 		frame:RegisterNormalEvent("GROUP_ROSTER_UPDATE", self, "GroupRosterUpdate")
 	end
 end
