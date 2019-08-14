@@ -4,24 +4,7 @@ local MAX_TOTEMS = MAX_TOTEMS
 
 -- Death Knights untalented ghouls are guardians and are considered totems........... so set it up for them
 local playerClass = select(2, UnitClass("player"))
-if( playerClass == "PALADIN" ) then
-	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Ancient Kings bar"], true, "PALADIN", nil, 70)
-elseif( playerClass == "DRUID" ) then
-	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Mushroom bar"], true, "DRUID", 4, 70)
-elseif( playerClass == "MONK" ) then
-	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Statue bar"], true, "MONK", {1, 2}, 70)
-elseif( playerClass == "MAGE" ) then
-	MAX_TOTEMS = 1
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Rune of Power bar"], true, "MAGE", {1, 2, 3}, 45)
-elseif( playerClass == "WARLOCK" ) then
-	MAX_TOTEMS = 2
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Imp & Dreadstalker bar"], true, "WARLOCK", 2)
-else
-	ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Totem bar"], true, "SHAMAN")
-end
+ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Totem bar"], true, "SHAMAN")
 
 ShadowUF.BlockTimers:Inject(Totems, "TOTEM_TIMER")
 ShadowUF.DynamicBlocks:Inject(Totems)
@@ -36,7 +19,7 @@ function Totems:OnEnable(frame)
 		frame.totemBar.totems = {}
 		frame.totemBar.blocks = frame.totemBar.totems
 
-		local priorities = (playerClass == "SHAMAN") and SHAMAN_TOTEM_PRIORITIES or STANDARD_TOTEM_PRIORITIES
+		local priorities = SHAMAN_TOTEM_PRIORITIES
 
 		for id=1, MAX_TOTEMS do
 			local totem = ShadowUF.Units:CreateBar(frame.totemBar)
@@ -54,21 +37,10 @@ function Totems:OnEnable(frame)
 			table.insert(frame.totemBar.totems, totem)
 		end
 
-		if( playerClass == "DRUID" ) then
-			totemColors[1] = ShadowUF.db.profile.powerColors.MUSHROOMS
-		elseif( playerClass == "WARLOCK" ) then
-			totemColors[1] = ShadowUF.db.profile.classColors.PET
-			totemColors[2] = ShadowUF.db.profile.classColors.PET
-		elseif( playerClass == "MONK" ) then
-			totemColors[1] = ShadowUF.db.profile.powerColors.STATUE
-		elseif( playerClass == "MAGE" ) then
-			totemColors[1] = ShadowUF.db.profile.powerColors.RUNEOFPOWER
-		else
-			totemColors[1] = {r = 1, g = 0, b = 0.4}
-			totemColors[2] = {r = 0, g = 1, b = 0.4}
-			totemColors[3] = {r = 0, g = 0.4, b = 1}
-			totemColors[4] = {r = 0.90, g = 0.90, b = 0.90}
-		end
+		totemColors[1] = {r = 1, g = 0, b = 0.4}
+		totemColors[2] = {r = 0, g = 1, b = 0.4}
+		totemColors[3] = {r = 0, g = 0.4, b = 1}
+		totemColors[4] = {r = 0.90, g = 0.90, b = 0.90}
 	end
 
 	frame:RegisterNormalEvent("PLAYER_TOTEM_UPDATE", self, "Update")
@@ -183,10 +155,5 @@ function Totems:Update(frame)
 		if( indicator.fontString ) then
 			indicator.fontString:UpdateTags()
 		end
-	end
-
-	-- Guardian timers always auto hide or if it's flagged to not always be shown
-	if( MAX_TOTEMS == 1 or not ShadowUF.db.profile.units[frame.unitType].totemBar.showAlways ) then
-		ShadowUF.Layout:SetBarVisibility(frame, "totemBar", totalActive > 0)
 	end
 end

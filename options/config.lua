@@ -3263,7 +3263,7 @@ local function loadUnitOptions()
 						hidden = function(info)
 							local unit = info[2]
 							if( unit == "global" ) then
-								return not globalConfig.runeBar and not globalConfig.totemBar and not globalConfig.druidBar and not globalConfig.priestBar and not globalConfig.shamanBar and not globalConfig.xpBar and not globalConfig.staggerBar
+								return not globalConfig.totemBar and not globalConfig.druidBar and not globalConfig.xpBar
 							else
 								return unit ~= "player" and unit ~= "pet"
 							end
@@ -3358,9 +3358,7 @@ local function loadUnitOptions()
 								order = 1,
 								type = "toggle",
 								name = string.format(L["Enable %s"], ShadowUF.modules.totemBar.moduleName),
-								desc = function(info)
-									return select(2, UnitClass("player")) == "SHAMAN" and L["Adds totem bars with timers before they expire to the player frame."] or select(2, UnitClass("player")) == "DEATHKNIGHT" and L["Adds a bar indicating how much time is left on your ghoul timer, only used if you do not have a permanent ghoul."] or select(2, UnitClass("player")) == "MAGE" and L["Adds a bar indicating how much time is left on your Rune of Power."] or L["Adds a bar indicating how much time is left on your mushrooms."]
-								end,
+								desc = L["Adds totem bars with timers before they expire to the player frame."],
 								arg = "totemBar.enabled",
 							},
 							icon = {
