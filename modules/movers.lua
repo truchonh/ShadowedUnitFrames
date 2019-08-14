@@ -31,15 +31,6 @@ local function createConfigEnv()
 		UnitIsPlayer = function(unit) return unit ~= "boss" and unit ~= "pet" and not string.match(unit, "(%w+)pet") end,
 		UnitHealth = function(unit) return getValue("UnitHealth", unit, math.random(20000, 50000)) end,
 		UnitIsQuestBoss = function(unit) return unit == "target" end,
-		UnitIsWildBattlePet = function(unit) return unit == "target" end,
-		UnitBattlePetType = function(unit)
-			if( unit == "target" ) then
-				return getValue("UnitBattlePetType", unit, math.random(#(PET_TYPE_SUFFIX)))
-			end
-		end,
-		GetArenaOpponentSpec = function(unitID)
-			return getValue("GetArenaOpponentSpec", unitID, math.random(250, 270))
-		end,
 		UnitHealthMax = function(unit) return 50000 end,
 		UnitPower = function(unit, powerType)
 			if( powerType == Enum.PowerType.HolyPower or powerType == Enum.PowerType.SoulShards ) then
