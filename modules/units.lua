@@ -1380,7 +1380,7 @@ centralFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 
 	-- Monitor talent changes for curable changes
-	elseif( event == "PLAYER_SPECIALIZATION_CHANGED" ) then
+	elseif( event == "CHARACTER_POINTS_CHANGED" ) then
 		checkCurableSpells()
 
 		for frame in pairs(ShadowUF.Units.frameList) do
@@ -1395,7 +1395,7 @@ centralFrame:SetScript("OnEvent", function(self, event, unit)
 
 	elseif( event == "PLAYER_LOGIN" ) then
 		checkCurableSpells()
-		self:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
+		self:RegisterEvent("CHARACTER_POINTS_CHANGED")
 
 	-- This is slightly hackish, but it suits the purpose just fine for somthing thats rarely called.
 	elseif( event == "PLAYER_REGEN_ENABLED" ) then
