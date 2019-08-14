@@ -85,9 +85,6 @@ function ShadowUF:OnInitialize()
 	self.Layout:LoadSML()
 	self:LoadUnits()
 	self.modules.movers:Update()
-
-	local LibDualSpec = LibStub("LibDualSpec-1.0", true)
-	if LibDualSpec then LibDualSpec:EnhanceDatabase(self.db, "ShadowedUnitFrames") end
 end
 
 function ShadowUF.UnitAuraBySpell(unit, spell, filter)
