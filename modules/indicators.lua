@@ -1,4 +1,4 @@
-local Indicators = {list = {"status", "pvp", "leader", "resurrect", "masterLoot", "raidTarget", "ready", "role", "class", "phase" }}
+local Indicators = {list = {"status", "pvp", "leader", "resurrect", "masterLoot", "raidTarget", "ready", "role", "class", "phase", "happiness" }}
 
 ShadowUF:RegisterModule(Indicators, "indicators", ShadowUF.L["Indicators"])
 
@@ -222,6 +222,26 @@ function Indicators:UpdateReadyCheck(frame, event)
 	frame.indicators.ready:Show()
 end
 
+function Indicators:UpdateHappiness(frame)
+	if( not frame.indicators.happiness or not frame.indicators.happiness.enabled ) then return end
+
+	local happiness, damagePercentage, loyaltyRate = GetPetHappiness()
+	local hasPetUI, isHunterPet = HasPetUI()
+	if ( not happiness or not isHunterPet ) then
+		frame.indicators.happiness:Hide()
+		return
+	end
+
+	if ( happiness == 1 ) then
+		frame.indicators.happiness:SetTexCoord(0.375, 0.5625, 0, 0.359375)
+	elseif ( happiness == 2 ) then
+		frame.indicators.happiness:SetTexCoord(0.1875, 0.375, 0, 0.359375)
+	elseif ( happiness == 3 ) then
+		frame.indicators.happiness:SetTexCoord(0, 0.1875, 0, 0.359375)
+	end
+	frame.indicators.happiness:Show()
+end
+
 function Indicators:OnEnable(frame)
 	-- Forces the indicators to be above the bars/portraits/etc
 	if( not frame.indicators ) then
@@ -317,6 +337,14 @@ function Indicators:OnEnable(frame)
 		frame:RegisterUpdateFunc(self, "UpdateReadyCheck")
 
 		frame.indicators.ready = frame.indicators.ready or frame.indicators:CreateTexture(nil, "OVERLAY")
+	end
+
+	if( config.indicators.happiness and config.indicators.happiness.enabled ) then
+		frame:RegisterUnitEvent("UNIT_HAPPINESS", self, "UpdateHappiness")
+		frame:RegisterUpdateFunc(self, "UpdateHappiness")
+
+		frame.indicators.happiness = frame.indicators.happiness or frame.indicators:CreateTexture(nil, "OVERLAY")
+		frame.indicators.happiness:SetTexture("Interface\\PetPaperDollFrame\\UI-PetHappiness")
 	end
 
 	-- As they all share the function, register it as long as one is active

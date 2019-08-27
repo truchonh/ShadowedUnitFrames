@@ -813,6 +813,9 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 				{text = "[name]"},
 				{text = ""},
 			},
+			indicators = {
+				happiness = {enabled = true, anchorPoint = "RC", size = 20, x = 0, y = 0, anchorTo = "$parent"},
+			},
 		},
 		pettarget = {
 			width = 190,
