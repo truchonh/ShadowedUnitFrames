@@ -43,6 +43,8 @@ read_globals = {
 	"C_Timer",
 	"CancelUnitBuff",
 	"CanHearthAndResurrectFromArea",
+	"CastingInfo",
+	"ChannelInfo",
 	"CheckInteractDistance",
 	"CreateFrame",
 	"GetArenaOpponentSpec",
