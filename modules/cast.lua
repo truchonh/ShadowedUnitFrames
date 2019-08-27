@@ -4,6 +4,16 @@ local FADE_TIME = 0.30
 
 ShadowUF:RegisterModule(Cast, "castBar", L["Cast bar"], true)
 
+local UnitCastingInfo = function(unit)
+	if unit ~= "player" then return end
+	return CastingInfo()
+end
+
+local UnitChannelInfo = function(unit)
+	if unit ~= "player" then return end
+	return ChannelInfo()
+end
+
 function Cast:OnEnable(frame)
 	if( not frame.castBar ) then
 		frame.castBar = CreateFrame("Frame", nil, frame)
@@ -37,6 +47,7 @@ end
 
 function Cast:OnLayoutApplied(frame, config)
 	if( not frame.visibility.castBar ) then return end
+	if( frame.unit ~= "player" ) then ShadowUF.Layout:SetBarVisibility(frame, "castBar", false) return end
 
 	-- Set textures
 	frame.castBar.bar:SetStatusBarTexture(ShadowUF.Layout.mediaPath.statusbar)
