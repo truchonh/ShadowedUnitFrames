@@ -723,19 +723,6 @@ function ShadowUF:HideBlizzardFrames()
 		end
 	end
 
-	if( self.db.profile.hidden.arena and not active_hiddens.arenaTriggered and IsAddOnLoaded("Blizzard_ArenaUI") and not InCombatLockdown() ) then
-		active_hiddens.arenaTriggered = true
-
-		ArenaEnemyFrames:UnregisterAllEvents()
-		ArenaEnemyFrames:SetParent(self.hiddenFrame)
-		ArenaPrepFrames:UnregisterAllEvents()
-		ArenaPrepFrames:SetParent(self.hiddenFrame)
-	end
-
-	if( self.db.profile.hidden.playerAltPower and not active_hiddens.playerAltPower ) then
-		hideBlizzardFrames(false, PlayerPowerBarAlt)
-	end
-
 	-- As a reload is required to reset the hidden hooks, we can just set this to true if anything is true
 	for type, flag in pairs(self.db.profile.hidden) do
 		if( flag ) then

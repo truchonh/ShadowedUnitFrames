@@ -1422,15 +1422,12 @@ local function loadHideOptions()
 				args = {
 					buffs = Config.hideTable,
 					cast = Config.hideTable,
-					playerPower = Config.hideTable,
 					party = Config.hideTable,
                     raid = Config.hideTable,
 					player = Config.hideTable,
 					pet = Config.hideTable,
 					target = Config.hideTable,
 					boss = Config.hideTable,
-					arena = Config.hideTable,
-					playerAltPower = Config.hideTable,
 				},
 			},
 		}
