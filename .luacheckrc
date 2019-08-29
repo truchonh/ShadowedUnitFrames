@@ -24,6 +24,7 @@ globals = {
 	"ShadowUF",
 	"ClickCastFrames",
 	"CONFIGMODE_CALLBACKS",
+	"RealMobHealth",
 	"SlashCmdList",
 }
 
