@@ -512,9 +512,9 @@ local function categorizeAura(type, curable, auraType, caster, isRemovable, canA
 	end
 end
 
-local function renderAura(parent, frame, type, config, displayConfig, index, filter, isFriendly, curable, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff)
+local function renderAura(parent, frame, type, config, displayConfig, index, filter, isFriendly, curable, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, _spellID, canApplyAura, isBossDebuff)
 	-- aura filters are all saved as strings, so need to override here
-	spellID = tostring(spellID)
+	local spellID = tostring(_spellID)
 	-- Do our initial list check to see if we can quick filter it out
 	if( parent.whitelist[type] and not parent.whitelist[name] and not parent.whitelist[spellID] ) then return end
 	if( parent.blacklist[type] and ( parent.blacklist[name] or parent.blacklist[spellID] ) ) then return end
@@ -542,8 +542,8 @@ local function renderAura(parent, frame, type, config, displayConfig, index, fil
 	end
 
 	-- try to obtain missing aura durations from LibClassicDurations
-	if LibClassicDurations then
-		local durationEstimated, endTimeEstimated = LibClassicDurations:GetAuraDurationByUnit(frame.parent.unit, tonumber(spellID), caster, name)
+	if LibClassicDurations and _spellID and name then
+		local durationEstimated, endTimeEstimated = LibClassicDurations:GetAuraDurationByUnit(frame.parent.unit, _spellID, caster, name)
 		if duration == 0 and durationEstimated then
 			duration = durationEstimated
 			endTime = endTimeEstimated
