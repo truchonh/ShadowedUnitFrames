@@ -24,7 +24,6 @@ globals = {
 	"ShadowUF",
 	"ClickCastFrames",
 	"CONFIGMODE_CALLBACKS",
-	"RealMobHealth",
 	"SlashCmdList",
 }
 
@@ -38,7 +37,9 @@ read_globals = {
 
 	-- misc custom, third party libraries
 	"ClickCastHeader",
+	"LibClassicDurations",
 	"LibStub",
+	"RealMobHealth",
 
 	-- API functions
 	"C_Timer",

@@ -4,6 +4,9 @@ local mainHand, offHand, tempEnchantScan = {time = 0}, {time = 0}
 local canCure = ShadowUF.Units.canCure
 ShadowUF:RegisterModule(Auras, "auras", ShadowUF.L["Auras"])
 
+local LibClassicDurations = LibStub("LibClassicDurations", true)
+if LibClassicDurations then LibClassicDurations:Register("ShadowUF") end
+
 function Auras:OnEnable(frame)
 	frame.auras = frame.auras or {}
 
@@ -536,6 +539,15 @@ local function renderAura(parent, frame, type, config, displayConfig, index, fil
 		button.border:SetVertexColor(color.r, color.g, color.b)
 	else
 		button.border:SetVertexColor(0.60, 0.60, 0.60)
+	end
+
+	-- try to obtain missing aura durations from LibClassicDurations
+	if LibClassicDurations then
+		local durationEstimated, endTimeEstimated = LibClassicDurations:GetAuraDurationByUnit(frame.parent.unit, tonumber(spellID), caster, name)
+		if duration == 0 and durationEstimated then
+			duration = durationEstimated
+			endTime = endTimeEstimated
+		end
 	end
 
 	-- Show the cooldown ring
