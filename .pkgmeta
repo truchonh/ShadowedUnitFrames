@@ -14,7 +14,7 @@ externals:
         url: https://repos.wowace.com/wow/libsharedmedia-3-0/trunk/LibSharedMedia-3.0
     libs/LibSpellRange-1.0:
         url: https://github.com/ascott18/LibSpellRange-1.0.git
-    Libs/LibClassicDurations:
+    libs/LibClassicDurations:
         url: https://repos.curseforge.com/wow/libclassicdurations
     options/libs/AceConfig-3.0:
         url: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
