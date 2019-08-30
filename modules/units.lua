@@ -1150,7 +1150,7 @@ function Units:LoadChildUnit(parent, type, id)
 	frame.unitType = type
 	frame.parent = parent
 	frame.isChildUnit = true
-	frame.hasStateWatch = type == "partypet"
+	frame.hasStateWatch = false
 	frame:SetFrameStrata("LOW")
 	frame:SetAttribute("useparent-unit", true)
 	frame:SetAttribute("unitsuffix", suffix)
