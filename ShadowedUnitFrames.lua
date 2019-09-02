@@ -5,7 +5,7 @@
 ShadowUF = select(2, ...)
 
 local L = ShadowUF.L
-ShadowUF.dbRevision = 60
+ShadowUF.dbRevision = 61
 ShadowUF.playerUnit = "player"
 ShadowUF.enabledUnits = {}
 ShadowUF.modules = {}
@@ -116,10 +116,23 @@ end
 
 function ShadowUF:CheckUpgrade()
 	local revision = self.db.profile.revision or self.dbRevision
-	if( revision <= 59 ) then
+	if( revision <= 60 ) then
 		local indicators = self.db.profile.units.pet.indicators or {}
 		self.db.profile.units.pet.indicators = indicators
-		indicators.happiness = {enabled = true, anchorPoint = "RC", size = 20, x = 0, y = 0, anchorTo = "$parent"}
+		if( revision <= 59 or not indicators.happiness ) then
+			indicators.happiness = {enabled = true, anchorPoint = "RC", size = 20, x = 0, y = 0, anchorTo = "$parent"}
+		else
+			local happiness = indicators.happiness
+			if happiness.size == 0 then
+				happiness.size = 20
+			end
+			if not happiness.anchorPoint then
+				happiness.anchorPoint = "RC"
+			end
+			if not happiness.anchorTo then
+				happiness.anchorTo = "$parent"
+			end
+		end
 	end
 	if( revision <= 58 ) then
 		for unit, config in pairs(self.db.profile.units) do
