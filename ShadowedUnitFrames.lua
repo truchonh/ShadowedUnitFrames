@@ -6,6 +6,7 @@ ShadowUF = select(2, ...)
 
 local L = ShadowUF.L
 ShadowUF.dbRevision = 61
+ShadowUF.dbRevisionClassic = 2
 ShadowUF.playerUnit = "player"
 ShadowUF.enabledUnits = {}
 ShadowUF.modules = {}
@@ -87,6 +88,7 @@ function ShadowUF:OnInitialize()
 	end
 
 	self.db.profile.revision = self.dbRevision
+	self.db.profile.revisionClassic = self.dbRevisionClassic
 	self:FireModuleEvent("OnInitialize")
 	self:HideBlizzardFrames()
 	self.Layout:LoadSML()
@@ -115,8 +117,9 @@ function ShadowUF:CheckBuild()
 end
 
 function ShadowUF:CheckUpgrade()
+	local revisionClassic = self.db.profile.revisionClassic or (self.db.profile.revision and 1 or self.dbRevisionClassic)
 	local revision = self.db.profile.revision or self.dbRevision
-	if( revision <= 60 ) then
+	if( revisionClassic <= 1 ) then
 		local indicators = self.db.profile.units.pet.indicators or {}
 		self.db.profile.units.pet.indicators = indicators
 		if( revision <= 59 or not indicators.happiness ) then
