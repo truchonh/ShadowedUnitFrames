@@ -12,7 +12,10 @@ local Range = {
 		["HUNTER"] = GetSpellInfo(1978), -- Serpent Sting
 		["MAGE"] = GetSpellInfo(133), -- Fireball
 		--["PALADIN"] = GetSpellInfo(62124), -- Hand of Reckoning
-		["PRIEST"] = GetSpellInfo(585), -- Smite
+		["PRIEST"] = {
+			GetSpellInfo(589), -- Shadow Word: Pain
+			GetSpellInfo(585), -- Smite
+		},
 		--["ROGUE"] = GetSpellInfo(1725), -- Distract
 		["SHAMAN"] = GetSpellInfo(403), -- Lightning Bolt
 		["WARLOCK"] = GetSpellInfo(686), -- Shadow Bolt
