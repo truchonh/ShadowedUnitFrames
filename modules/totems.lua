@@ -141,6 +141,11 @@ function Totems:Update(frame)
 			indicator:SetValue(indicator.endTime - GetTime())
 			indicator:SetScript("OnUpdate", totemMonitor)
 			indicator:SetAlpha(1.0)
+			frame:SetBlockColor(indicator,
+								"totemBar",
+								totemColors[indicator.id].r,
+								totemColors[indicator.id].g,
+								totemColors[indicator.id].b)
 
 			totalActive = totalActive + 1
 
