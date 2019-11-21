@@ -1343,7 +1343,7 @@ end
 
 
 -- Checker function, makes sure tags are all happy
---@debug@
+---@debug@
 function Tags:Verify()
 	local fine = true
 	for tag, events in pairs(self.defaultEvents) do
@@ -1388,4 +1388,4 @@ function Tags:Verify()
 		print("Verified tags, everything is fine.")
 	end
 end
---@end-debug@
+---@end-debug@

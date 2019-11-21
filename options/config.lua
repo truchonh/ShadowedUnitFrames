@@ -228,7 +228,7 @@ local function setVariable(unit, moduleKey, moduleSubKey, key, value)
 end
 
 local function specialRestricted(unit, moduleKey, moduleSubKey, key)
-	if( ShadowUF.fakeUnits[unit] and ( key == "colorDispel" or moduleKey == "castBar" ) ) then
+	if( ShadowUF.fakeUnits[unit] and ( key == "colorDispel" or moduleKey == "castBar" or moduleKey == "incHeal" ) ) then
 		return true
 	elseif( moduleKey == "healthBar" and unit == "player" and key == "reaction" ) then
 		return true
@@ -3378,6 +3378,33 @@ local function loadUnitOptions()
 								end,
 								arg = "totemBar.secure",
 							}
+						},
+					},
+					incHeal = {
+						order = 3,
+						type = "group",
+						inline = false,
+						name = L["Incoming heals"],
+						hidden = hideRestrictedOption,
+						disabled = function(info) return not getVariable(info[2], "healthBar", nil, "enabled") end,
+						args = {
+							enabled = {
+								order = 1,
+								type = "toggle",
+								name = string.format(L["Enable %s"], L["Incoming heals"]),
+								desc = L["Adds a bar inside the health bar indicating how much healing someone is estimated to be receiving."],
+								arg = "incHeal.enabled",
+								hidden = false,
+							},
+							cap = {
+								order = 2,
+								type = "range",
+								name = L["Outside bar limit"],
+								desc = L["Percentage value of how far outside the unit frame the incoming heal bar can go. 130% means it will go 30% outside the frame, 100% means it will not go outside."],
+								min = 1, max = 1.50, step = 0.05, isPercent = true,
+								arg = "incHeal.cap",
+								hidden = false,
+							},
 						},
 					},
 					emptyBar = {
