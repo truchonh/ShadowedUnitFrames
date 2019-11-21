@@ -3,7 +3,7 @@ if( not HealComm ) then return end
 
 local IncHeal = {}
 local frames = {}
-local playerEndTime, playerGUID
+local playerGUID
 ShadowUF:RegisterModule(IncHeal, "incHeal", ShadowUF.L["Incoming heals"])
 ShadowUF.Tags.customEvents["HEALCOMM"] = IncHeal
 	
@@ -125,16 +125,13 @@ end
 local function updateHealthBar(frame, interrupted)
 	-- This makes sure that when a heal like Tranquility is cast, it won't show the entire cast but cap it at 4 seconds into the future
 	local time = GetTime()
-	--local timeBand = playerEndTime and math.min(playerEndTime - time, INCOMING_SECONDS) or INCOMING_SECONDS
-	timeBand = INCOMING_SECONDS 
-	local healed = (HealComm:GetHealAmount(frame.unitGUID, HealComm.ALL_HEALS, time + timeBand) or 0) * HealComm:GetHealModifier(frame.unitGUID)
+	local healed = (HealComm:GetHealAmount(frame.unitGUID, HealComm.ALL_HEALS, time + INCOMING_SECONDS) or 0) * HealComm:GetHealModifier(frame.unitGUID)
 	
 	-- Update any tags that are using HC data
 	IncHeal:UpdateTags(frame, healed)
 	
 	-- Bar is also supposed to be enabled, lets update that too
 	if( frame.visibility.incHeal and frame.visibility.healthBar ) then
-		--print("Incoming", frame:GetName(), healed, HealComm:GetHealAmount(frame.unitGUID, HealComm.ALL_HEALS, time + timeBand), HealComm:GetHealModifier(frame.unitGUID))
 		if( healed > 0 ) then
 			frame.incHeal.healed = healed
 			frame.incHeal:Show()
@@ -153,7 +150,7 @@ local function updateHealthBar(frame, interrupted)
 				end
 				
 				frame.incHeal:SetWidth(incWidth)
-				frame.incHeal:SetPoint("TOPLEFT", SUFUnitplayer, "TOPLEFT", frame.incHeal.healthX + healthWidth, frame.incHeal.healthY)
+				frame.incHeal:SetPoint("TOPLEFT", frame, "TOPLEFT", frame.incHeal.healthX + healthWidth, frame.incHeal.healthY)
 			end
 		else
 			frame.incHeal.total = nil
@@ -179,12 +176,10 @@ end
 
 -- Handle callbacks from HealComm
 function IncHeal:HealComm_HealUpdated(event, casterGUID, spellID, healType, endTime, ...)
-	if( casterGUID == playerGUID and bit.band(healType, HealComm.CASTED_HEALS) > 0 ) then playerEndTime = endTime end
 	self:UpdateIncoming(nil, ...)
 end
 
 function IncHeal:HealComm_HealStopped(event, casterGUID, spellID, healType, interrupted, ...)
-	if( casterGUID == playerGUID and bit.band(healType, HealComm.CASTED_HEALS) > 0 ) then playerEndTime = nil end
 	self:UpdateIncoming(interrupted, ...)
 end
 
