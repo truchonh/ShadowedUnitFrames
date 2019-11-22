@@ -5,7 +5,7 @@
 ## Version: @project-version@
 ## SavedVariables: ShadowedUFDB
 ## X-Website: https://www.wowace.com/addons/shadowed-unit-frames/
-## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, RealMobHealth
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, RealMobHealth, LibHealComm-4.0
 ## X-Curse-Project-ID: 19268
 ## X-WoWI-ID: 13494
 
@@ -42,6 +42,7 @@ modules\health.lua
 modules\power.lua
 modules\portrait.lua
 modules\indicators.lua
+modules\incheal.lua
 modules\xp.lua
 modules\cast.lua
 modules\auras.lua
