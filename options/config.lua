@@ -1040,6 +1040,13 @@ local function loadGeneralOptions()
 								desc = L["Color to use for health bars that are set to be colored by a static color."],
 								arg = "healthColors.static",
 							},
+							inc = {
+								order = 8,
+								type = "color",
+								name = L["Incoming heal"],
+								desc = L["Bar color to use to show how much healing someone is about to receive."],
+								arg = "healthColors.inc",
+							},
 							enemyUnattack = {
 								order = 11,
 								type = "color",
