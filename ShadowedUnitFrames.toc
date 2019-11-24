@@ -17,6 +17,7 @@ libs\AceDB-3.0\AceDB-3.0.xml
 libs\LibSpellRange-1.0\lib.xml
 libs\LibClassicDurations\LibClassicDurations.xml
 libs\LibHealComm-4.0\LibHealComm-4.0.xml
+libs\LibClassicCasterino\LibClassicCasterino.lua
 #@end-no-lib-strip@
 
 localization\enUS.lua

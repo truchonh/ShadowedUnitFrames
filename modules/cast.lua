@@ -1,17 +1,24 @@
 local Cast = {}
 local L = ShadowUF.L
 local FADE_TIME = 0.30
+local LibCC = LibStub("LibClassicCasterino", true)
 
 ShadowUF:RegisterModule(Cast, "castBar", L["Cast bar"], true)
 
 local UnitCastingInfo = function(unit)
-	if unit ~= "player" then return end
-	return CastingInfo()
+	if (unit == "player") then
+		return CastingInfo()
+	else
+		return LibCC:UnitCastingInfo(unit)
+	end
 end
 
 local UnitChannelInfo = function(unit)
-	if unit ~= "player" then return end
-	return ChannelInfo()
+	if (unit == "player") then
+		return ChannelInfo()
+	else
+		return LibCC:UnitChannelInfo(unit)
+	end
 end
 
 function Cast:OnEnable(frame)
@@ -27,27 +34,34 @@ function Cast:OnEnable(frame)
 		frame.castBar.bar.time = frame.castBar.bar:CreateFontString(nil, "ARTWORK")
 	end
 
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_START", self, "EventUpdateCast")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_STOP", self, "EventStopCast")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_FAILED", self, "EventStopCast")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_INTERRUPTED", self, "EventInterruptCast")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_DELAYED", self, "EventDelayCast")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", self, "EventCastSucceeded")
+	if (frame.unit == "player") then
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_START", self, "EventUpdateCast")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_STOP", self, "EventStopCast")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_FAILED", self, "EventStopCast")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_INTERRUPTED", self, "EventInterruptCast")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_DELAYED", self, "EventDelayCast")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", self, "EventCastSucceeded")
 
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", self, "EventUpdateChannel")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", self, "EventStopCast")
-	--frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_INTERRUPTED", self, "EventInterruptCast")
-	frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", self, "EventDelayChannel")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", self, "EventUpdateChannel")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", self, "EventStopCast")
+		frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", self, "EventDelayChannel")
+	else
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_START", function(...) Cast:EventUpdateCast(frame, ...) end)
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_STOP", function(...) Cast:EventStopCast(frame, ...) end)
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_FAILED", function(...) Cast:EventStopCast(frame, ...) end)
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_INTERRUPTED", function(...) Cast:EventInterruptCast(frame, ...) end)
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_DELAYED", function(...) Cast:EventDelayCast(frame, ...) end)
 
-	--frame:RegisterUnitEvent("UNIT_SPELLCAST_INTERRUPTIBLE", self, "EventInterruptible")
-	--frame:RegisterUnitEvent("UNIT_SPELLCAST_NOT_INTERRUPTIBLE", self, "EventUninterruptible")
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_CHANNEL_START", function(...) Cast:EventUpdateChannel(frame, ...) end)
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_CHANNEL_STOP", function(...) Cast:EventStopCast(frame, ...) end)
+		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_CHANNEL_UPDATE", function(...) Cast:EventDelayChannel(frame, ...) end)
+	end
 
 	frame:RegisterUpdateFunc(self, "UpdateCurrentCast")
 end
 
 function Cast:OnLayoutApplied(frame, config)
 	if( not frame.visibility.castBar ) then return end
-	if( frame.unit ~= "player" ) then ShadowUF.Layout:SetBarVisibility(frame, "castBar", false) return end
 
 	-- Set textures
 	frame.castBar.bar:SetStatusBarTexture(ShadowUF.Layout.mediaPath.statusbar)
@@ -121,6 +135,7 @@ end
 
 function Cast:OnDisable(frame, unit)
 	frame:UnregisterAll(self)
+	LibCC.UnregisterAllCallbacks(frame)
 
 	if( frame.castBar ) then
 		frame.castBar.bar.name:Hide()

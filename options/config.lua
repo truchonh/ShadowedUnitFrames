@@ -3474,14 +3474,7 @@ local function loadUnitOptions()
 						type = "group",
 						inline = false,
 						name = L["Cast bar"],
-						hidden = function(info)
-							local unit = info[2]
-							if( unit == "global" ) then
-								return not globalConfig.castBar
-							else
-								return unit ~= "player"
-							end
-						end,
+						hidden = hideRestrictedOption,
 						args = {
 							enabled = {
 								order = 1,
