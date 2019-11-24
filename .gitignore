@@ -1,2 +1,4 @@
 suf.tmproj
 .DS_Store
+libs/
+luacheck.exe

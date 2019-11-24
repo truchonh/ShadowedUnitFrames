@@ -1817,8 +1817,10 @@ local function loadUnitOptions()
 
 		local parentList = {}
 		for id, text in pairs(ShadowUF.db.profile.units.player.text) do
-			parentList[text.anchorTo] = parentList[text.anchorTo] or {}
-			parentList[text.anchorTo][id] = text
+			if (text.anchorTo ~= "$runeBar" and text.anchorTo ~= "$staggerBar") then
+				parentList[text.anchorTo] = parentList[text.anchorTo] or {}
+				parentList[text.anchorTo][id] = text
+			end
 		end
 
 		local nagityNagNagTable = {
