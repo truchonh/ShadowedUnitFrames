@@ -21,7 +21,7 @@ externals:
     libs/LibHealComm-4.0:
         url: https://repos.wowace.com/wow/libhealcomm-4-0
     libs/LibTotemInfo-1.0:
-        url: https://repos.curseforge.com/wow/libtoteminfo
+        url: https://github.com/SwimmingTiger/LibTotemInfo.git
     options/libs/AceConfig-3.0:
         url: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
     options/libs/AceDBOptions-3.0:
