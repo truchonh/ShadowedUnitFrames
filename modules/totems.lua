@@ -2,6 +2,9 @@ local Totems = {}
 local totemColors = {}
 local MAX_TOTEMS = MAX_TOTEMS
 
+-- Blizzard removed this in 1.13.3, and we need to use a library to get the functionality again
+local LibTotemInfo = LibStub("LibTotemInfo-1.0", true)
+
 -- Death Knights untalented ghouls are guardians and are considered totems........... so set it up for them
 local playerClass = select(2, UnitClass("player"))
 ShadowUF:RegisterModule(Totems, "totemBar", ShadowUF.L["Totem bar"], true, "SHAMAN")
@@ -118,17 +121,20 @@ local function totemMonitor(self, elapsed)
 end
 
 function Totems:Update(frame)
+	-- Don't attempt to update totems until the lib is loaded
+	if( not LibTotemInfo.GetTotemInfo ) then return end
+
 	local totalActive = 0
 	for _, indicator in pairs(frame.totemBar.totems) do
 		local have, _name, start, duration, icon
 		if MAX_TOTEMS == 1 and indicator.id == 1 then
 			local id = 1
 			while not have and id <= 4 do
-				have, _name, start, duration, icon = GetTotemInfo(id)
+				have, _name, start, duration, icon = LibTotemInfo.GetTotemInfo(id)
 				id = id + 1
 			end
 		else
-			have, _name, start, duration, icon = GetTotemInfo(indicator.id)
+			have, _name, start, duration, icon = LibTotemInfo.GetTotemInfo(indicator.id)
 		end
 		if( have and start > 0 ) then
 			if( ShadowUF.db.profile.units[frame.unitType].totemBar.icon ) then

@@ -18,6 +18,7 @@ libs\LibSpellRange-1.0\lib.xml
 libs\LibClassicDurations\LibClassicDurations.xml
 libs\LibHealComm-4.0\LibHealComm-4.0.xml
 libs\LibClassicCasterino\LibClassicCasterino.lua
+libs\LibTotemInfo-1.0\embeds.xml
 #@end-no-lib-strip@
 
 localization\enUS.lua
