@@ -367,6 +367,7 @@ function ShadowUF:LoadUnitDefaults()
 	self.defaults.profile.units.target.enabled = true
 	self.defaults.profile.units.target.indicators.questBoss = {enabled = true, size = 0, x = 0, y = 0}
 	self.defaults.profile.units.target.comboPoints = {enabled = false, isBar = true}
+	self.defaults.profile.units.target.auras.buffs.approximateEnemyData = true
 	-- TARGETTARGET/TARGETTARGETTARGET
 	self.defaults.profile.units.targettarget.enabled = true
 	self.defaults.profile.units.targettargettarget.enabled = true

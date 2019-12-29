@@ -1946,6 +1946,16 @@ local function loadUnitOptions()
 						hidden = function(info) return info[2] ~= "player" or info[#(info) - 2] ~= "buffs" end,
 						disabled = function(info) return not getVariable(info[2], "auras", "buffs", "enabled") end,
 						arg = "auras.buffs.temporary",
+					},
+					approximateEnemyData = {
+						order = 3,
+						type = "toggle",
+						name = L["Enable enemy buff tracking"],
+						desc = L["Display enemy buffs using LibClassicDuration data."],
+						width = "full",
+						hidden = function(info) return info[2] ~= "target" or info[#(info) - 2] ~= "buffs" end,
+						disabled = function(info) return not getVariable(info[2], "auras", "buffs", "enabled") end,
+						arg = "auras.buffs.approximateEnemyData",
 					}
 				}
 			},

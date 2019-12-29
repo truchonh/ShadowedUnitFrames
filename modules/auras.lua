@@ -4,8 +4,8 @@ local mainHand, offHand, tempEnchantScan = {time = 0}, {time = 0}
 local canCure = ShadowUF.Units.canCure
 ShadowUF:RegisterModule(Auras, "auras", ShadowUF.L["Auras"])
 
-local LibClassicDurations = LibStub("LibClassicDurations", true)
-if LibClassicDurations then LibClassicDurations:Register("ShadowUF") end
+local LibClassicDurations = LibStub("LibClassicDurations")
+LibClassicDurations:Register("ShadowUF")
 
 function Auras:OnEnable(frame)
 	frame.auras = frame.auras or {}
@@ -15,10 +15,27 @@ function Auras:OnEnable(frame)
 	frame:RegisterUpdateFunc(self, "Update")
 
 	self:UpdateFilter(frame)
+
+	-- LibClassicDurations only fires for target, and various nameplate units we don't support.
+	-- so we hardcode in the unit check, but it'll always effectively be target and no other SUF unit frames.
+	if( frame.unit == "target" and ShadowUF.db.profile.units[frame.unitType].auras.buffs.approximateEnemyData ) then
+		frame.auras.auraFunc = LibClassicDurations.UnitAuraDirect
+		LibClassicDurations.RegisterCallback(frame, "UNIT_BUFF", function(event, unit)
+			if( frame.unit == unit ) then
+				Auras:Update(frame)
+			end
+		end)
+	else
+		frame.auras.auraFunc = UnitAura
+	end
 end
 
 function Auras:OnDisable(frame)
 	frame:UnregisterAll(self)
+
+	if( frame.unit == "target" ) then
+		LibClassicDurations.UnregisterCallback(frame, "UNIT_BUFF")
+	end
 end
 
 -- Aura positioning code
@@ -197,6 +214,9 @@ local function showTooltip(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
 	if( self.filter == "TEMP" ) then
 		GameTooltip:SetInventoryItem("player", self.auraID)
+		self:SetScript("OnUpdate", nil)
+	elseif( self.unit == "target" and not UnitAura(self.unit, self.auraID, self.filter) ) then
+		GameTooltip:SetSpellByID(self.spellID, true, true)
 		self:SetScript("OnUpdate", nil)
 	else
 		GameTooltip:SetUnitAura(self.unit, self.auraID, self.filter)
@@ -512,17 +532,17 @@ local function categorizeAura(type, curable, auraType, caster, isRemovable, canA
 	end
 end
 
-local function renderAura(parent, frame, type, config, displayConfig, index, filter, isFriendly, curable, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, _spellID, canApplyAura, isBossDebuff)
+local function renderAura(parent, frame, type, config, displayConfig, index, filter, isFriendly, curable, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff)
 	-- aura filters are all saved as strings, so need to override here
-	local spellID = tostring(_spellID)
+	local strSpellID = tostring(spellID)
 	-- Do our initial list check to see if we can quick filter it out
-	if( parent.whitelist[type] and not parent.whitelist[name] and not parent.whitelist[spellID] ) then return end
-	if( parent.blacklist[type] and ( parent.blacklist[name] or parent.blacklist[spellID] ) ) then return end
+	if( parent.whitelist[type] and not parent.whitelist[name] and not parent.whitelist[strSpellID] ) then return end
+	if( parent.blacklist[type] and ( parent.blacklist[name] or parent.blacklist[strSpellID] ) ) then return end
 
 	-- Now do our type filter
 	local category = categorizeAura(type, curable, auraType, caster, isRemovable, canApplyAura, isBossDebuff)
 	-- check override and type filters
-	if( not ( parent.overridelist[type] and ( parent.overridelist[name] or parent.overridelist[spellID] ) ) and not config.show[category] and (not config.show.relevant or (type == "debuffs") ~= isFriendly) ) then return end
+	if( not ( parent.overridelist[type] and ( parent.overridelist[name] or parent.overridelist[strSpellID] ) ) and not config.show[category] and (not config.show.relevant or (type == "debuffs") ~= isFriendly) ) then return end
 
 	-- Create any buttons we need
 	frame.totalAuras = frame.totalAuras + 1
@@ -541,10 +561,10 @@ local function renderAura(parent, frame, type, config, displayConfig, index, fil
 		button.border:SetVertexColor(0.60, 0.60, 0.60)
 	end
 
-	-- try to obtain missing aura durations from LibClassicDurations
-	if LibClassicDurations and _spellID and name then
-		local durationEstimated, endTimeEstimated = LibClassicDurations:GetAuraDurationByUnit(frame.parent.unit, _spellID, caster, name)
-		if duration == 0 and durationEstimated then
+	-- Try to obtain missing aura durations from LibClassicDurations
+	if( spellID and name and duration == 0 ) then
+		local durationEstimated, endTimeEstimated = LibClassicDurations:GetAuraDurationByUnit(frame.parent.unit, spellID, caster, name)
+		if( durationEstimated ) then
 			duration = durationEstimated
 			endTime = endTimeEstimated
 		end
@@ -575,6 +595,7 @@ local function renderAura(parent, frame, type, config, displayConfig, index, fil
 
 	-- Stack + icon + show! Never understood why, auras sometimes return 1 for stack even if they don't stack
 	button.auraID = index
+	button.spellID = spellID
 	button.filter = filter
 	button.unit = frame.parent.unit
 	button.columnHasScaled = nil
@@ -595,7 +616,7 @@ local function scan(parent, frame, type, config, displayConfig, filter)
 	local index = 0
 	while( true ) do
 		index = index + 1
-		local name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff = UnitAura(frame.parent.unit, index, filter)
+		local name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff = parent.auraFunc(frame.parent.unit, index, filter)
 		if( not name ) then break end
 
 		renderAura(parent, frame, type, config, displayConfig, index, filter, isFriendly, curable, name, texture, count, auraType, duration, endTime, caster, isRemovable, nameplateShowPersonal, spellID, canApplyAura, isBossDebuff)
