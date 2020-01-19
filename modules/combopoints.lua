@@ -6,8 +6,7 @@ local cpConfig = {max = MAX_COMBO_POINTS, key = "comboPoints", colorKey = "COMBO
 
 function Combo:OnEnable(frame)
 	frame.comboPoints = frame.comboPoints or CreateFrame("Frame", nil, frame)
-	frame.comboPoints.cpConfig = cpConfig
-	cpConfig.max = UnitPowerMax("player", cpConfig.powerType)
+	frame.comboPoints.cpConfig = CopyTable(cpConfig)
 
 	frame:RegisterNormalEvent("UNIT_POWER_UPDATE", self, "Update", "player")
 	frame:RegisterNormalEvent("UNIT_POWER_FREQUENT", self, "Update", "player")
@@ -19,6 +18,15 @@ end
 
 function Combo:GetComboPointType()
 	return "comboPoints"
+end
+
+function Combo:GetMaxPoints()
+	-- Warriors have Overpower which is flagged as a combo point and UnitPowerMax says 5.
+	if( select(2, UnitClass("player")) == "WARRIOR" ) then
+		return 1
+	else
+		return UnitPowerMax("player", cpConfig.powerType)
+	end
 end
 
 function Combo:GetPoints(unit)
