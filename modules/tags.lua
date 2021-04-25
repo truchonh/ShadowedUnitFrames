@@ -445,6 +445,65 @@ Tags.defaultTags = {
 		local name = UnitName(unitOwner) or UNKNOWN
 		return string.len(name) > 10 and ShadowUF.Tags.abbrevCache[name] or name
 	end]],
+	["unit:situation"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation(unit)
+		if( state == 3 ) then
+			return ShadowUF.L["Aggro"]
+		elseif( state == 2 ) then
+			return ShadowUF.L["High"]
+		elseif( state == 1 ) then
+			return ShadowUF.L["Medium"]
+		end
+	end]],
+	["situation"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation("player", "target")
+		if( state == 3 ) then
+			return ShadowUF.L["Aggro"]
+		elseif( state == 2 ) then
+			return ShadowUF.L["High"]
+		elseif( state == 1 ) then
+			return ShadowUF.L["Medium"]
+		end
+	end]],
+	["unit:color:sit"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation(unit)
+
+		return state and state > 0 and ShadowUF:Hex(GetThreatStatusColor(state))
+	end]],
+	["unit:color:aggro"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation(unit)
+
+		return state and state >= 3 and ShadowUF:Hex(GetThreatStatusColor(state))
+	end]],
+	["color:sit"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation("player", "target")
+
+		return state and state > 0 and ShadowUF:Hex(GetThreatStatusColor(state))
+	end]],
+	["color:aggro"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation("player", "target")
+
+		return state and state >= 3 and ShadowUF:Hex(GetThreatStatusColor(state))
+	end]],
+	["scaled:threat"] = [[function(unit, unitOwner)
+		local scaled = select(3, UnitDetailedThreatSituation("player", "target"))
+		return scaled and string.format("%d%%", scaled)
+	end]],
+	["general:sit"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation("player")
+		if( state == 3 ) then
+			return ShadowUF.L["Aggro"]
+		elseif( state == 2 ) then
+			return ShadowUF.L["High"]
+		elseif( state == 1 ) then
+			return ShadowUF.L["Medium"]
+		end
+	end]],
+	["color:gensit"] = [[function(unit, unitOwner)
+		local state = UnitThreatSituation("player")
+
+		return state and state > 0 and ShadowUF:Hex(GetThreatStatusColor(state))
+	end]],
 	["status:time"] = [[function(unit, unitOwner)
 		local offlineStatus = ShadowUF.Tags.offlineStatus
 		if( not UnitIsConnected(unitOwner) ) then
@@ -977,6 +1036,16 @@ Tags.defaultEvents = {
 	["shortclassification"] 	= "UNIT_CLASSIFICATION_CHANGED",
 	["dechp"]					= "UNIT_HEALTH UNIT_HEALTH_FREQUENT UNIT_MAXHEALTH",
 	["group"]					= "GROUP_ROSTER_UPDATE",
+	["unit:color:aggro"]		= "UNIT_THREAT_SITUATION_UPDATE",
+	["color:aggro"]				= "UNIT_THREAT_SITUATION_UPDATE",
+	["situation"]				= "UNIT_THREAT_SITUATION_UPDATE",
+	["color:sit"]				= "UNIT_THREAT_SITUATION_UPDATE",
+	["scaled:threat"]			= "UNIT_THREAT_SITUATION_UPDATE",
+	["general:sit"]				= "UNIT_THREAT_SITUATION_UPDATE",
+	["color:gensit"]			= "UNIT_THREAT_SITUATION_UPDATE",
+	["unit:scaled:threat"]		= "UNIT_THREAT_SITUATION_UPDATE",
+	["unit:color:sit"]			= "UNIT_THREAT_SITUATION_UPDATE",
+	["unit:situation"]			= "UNIT_THREAT_SITUATION_UPDATE",
 }
 
 -- Default update frequencies for tag updating, used if it's needed to override the update speed
@@ -986,6 +1055,8 @@ Tags.defaultFrequents = {
 	["afk:time"] = 1,
 	["status:time"] = 1,
 	["pvp:time"] = 1,
+	["scaled:threat"] = 1,
+	["unit:scaled:threat"] = 1,
 	["unit:raid:targeting"] = 0.50,
 	["unit:raid:assist"] = 0.50,
 }
@@ -1055,6 +1126,16 @@ Tags.defaultCategories = {
 	["sec:absolutepp"]			= "classspec",
 	["sshards"]					= "classspec",
 	["hpower"]					= "classspec",
+	["situation"]				= "playerthreat",
+	["color:sit"]				= "playerthreat",
+	["scaled:threat"]			= "playerthreat",
+	["general:sit"]				= "playerthreat",
+	["color:gensit"]			= "playerthreat",
+	["color:aggro"]				= "playerthreat",
+	["unit:scaled:threat"]		= "threat",
+	["unit:color:sit"]			= "threat",
+	["unit:situation"]			= "threat",
+	["unit:color:aggro"]		= "threat",
 	["unit:raid:assist"]		= "raid",
 	["unit:raid:targeting"] 	= "raid",
 }
@@ -1127,6 +1208,16 @@ Tags.defaultHelp = {
 	["sec:abscurpp"]      		= string.format(L["Works the same as [%s], but always shows mana and is only shown if mana is a secondary power."], "abscurpp"),
 	["sec:curmaxpp"]			= string.format(L["Works the same as [%s], but always shows mana and is only shown if mana is a secondary power."], "curmaxpp"),
 	["sec:absolutepp"]			= string.format(L["Works the same as [%s], but always shows mana and is only shown if mana is a secondary power."], "absolutepp"),
+	["situation"]				= L["Returns text based on your threat situation with your target: Aggro for Aggro, High for being close to taking aggro, and Medium as a general warning to be wary."],
+	["color:sit"]				= L["Returns a color code of the threat situation with your target: Red for Aggro, Orange for High threat and Yellow to be careful."],
+	["scaled:threat"]			= L["Returns a scaled threat percent of your aggro on your current target, always 0 - 100%."],
+	["general:sit"]				= L["Returns text based on your general threat situation on all units: Aggro for Aggro, High for being near to pulling aggro and Medium as a general warning."],
+	["color:gensit"]			= L["Returns a color code of your general threat situation on all units: Red for Aggro, Orange for High threat and Yellow to watch out."],
+	["unit:scaled:threat"]		= L["Returns the scaled threat percentage for the unit, if you put this on a party member you would see the percentage of how close they are to getting any from any hostile mobs. Always 0 - 100%.|nThis cannot be used on target of target or focus target types of units."],
+	["unit:color:sit"]			= L["Returns the color code for the units threat situation in general: Red for Aggro, Orange for High threat and Yellow to watch out.|nThis cannot be used on target of target or focus target types of units."],
+	["unit:situation"]			= L["Returns text based on the units general threat situation: Aggro for Aggro, High for being close to taking aggro, and Medium as a warning to be wary.|nThis cannot be used on target of target or focus target types of units."],
+	["unit:color:aggro"]		= L["Same as [unit:color:sit] except it only returns red if the unit has aggro, rather than transiting from yellow -> orange -> red."],
+	["color:aggro"]				= L["Same as [color:sit] except it only returns red if you have aggro, rather than transiting from yellow -> orange -> red."],
 	["unit:raid:targeting"]		= L["How many people in your raid are targeting the unit, for example if you put this on yourself it will show how many people are targeting you. This includes you in the count!"],
 	["unit:raid:assist"]		= L["How many people are assisting the unit, for example if you put this on yourself it will show how many people are targeting your target. This includes you in the count!"],
 }
@@ -1207,6 +1298,13 @@ Tags.defaultNames = {
 	["sec:abscurpp"]      		= L["Current power (Secondary/Absolute)"],
 	["sec:curmaxpp"]			= L["Cur/Max power (Secondary)"],
 	["sec:absolutepp"]			= L["Cur/Max power (Secondary/Absolute)"],
+	["situation"]				= L["Threat situation"],
+	["color:sit"]				= L["Color code for situation"],
+	["scaled:threat"]			= L["Scaled threat percent"],
+	["general:sit"]				= L["General threat situation"],
+	["color:gensit"]			= L["Color code for general situation"],
+	["color:aggro"]				= L["Color code on aggro"],
+	["unit:color:aggro"]		= L["Unit color code on aggro"],
 	["unit:raid:targeting"]		= L["Raid targeting unit"],
 	["unit:raid:assist"]		= L["Raid assisting unit"],
 }
@@ -1293,6 +1391,9 @@ local function loadAPIEvents()
 		["GetRaidRosterInfo"]		= "GROUP_ROSTER_UPDATE",
 		["GetReadyCheckStatus"]		= "READY_CHECK READY_CHECK_CONFIRM READY_CHECK_FINISHED",
 		["GetLootMethod"]			= "PARTY_LOOT_METHOD_CHANGED",
+		["GetThreatStatusColor"]	= "UNIT_THREAT_SITUATION_UPDATE",
+		["UnitThreatSituation"]		= "UNIT_THREAT_SITUATION_UPDATE",
+		["UnitDetailedThreatSituation"] = "UNIT_THREAT_SITUATION_UPDATE",
 	}
 end
 
