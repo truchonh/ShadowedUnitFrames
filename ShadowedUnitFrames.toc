@@ -27,7 +27,6 @@ libs\LibSpellRange-1.0\lib.xml
 # libs\LibClassicCasterino\LibClassicCasterino.lua
 #@end-non-version-bcc@
 libs\LibHealComm-4.0\LibHealComm-4.0.xml
-libs\LibTotemInfo-1.0\embeds.xml
 #@end-no-lib-strip@
 
 localization\enUS.lua
