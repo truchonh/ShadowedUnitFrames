@@ -4,8 +4,12 @@ local mainHand, offHand, tempEnchantScan = {time = 0}, {time = 0}
 local canCure = ShadowUF.Units.canCure
 ShadowUF:RegisterModule(Auras, "auras", ShadowUF.L["Auras"])
 
-local LibClassicDurations = LibStub("LibClassicDurations")
-LibClassicDurations:Register("ShadowUF")
+local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+
+local LibClassicDurations = LibStub("LibClassicDurations", true)
+if WoWClassic and LibClassicDurations then
+	LibClassicDurations:Register("ShadowUF")
+end
 
 function Auras:OnEnable(frame)
 	frame.auras = frame.auras or {}
@@ -18,7 +22,7 @@ function Auras:OnEnable(frame)
 
 	-- LibClassicDurations only fires for target, and various nameplate units we don't support.
 	-- so we hardcode in the unit check, but it'll always effectively be target and no other SUF unit frames.
-	if( frame.unit == "target" and ShadowUF.db.profile.units[frame.unitType].auras.buffs.approximateEnemyData ) then
+	if( WoWClassic and LibClassicDurations and frame.unit == "target" and ShadowUF.db.profile.units[frame.unitType].auras.buffs.approximateEnemyData ) then
 		frame.auras.auraFunc = LibClassicDurations.UnitAuraDirect
 		LibClassicDurations.RegisterCallback(frame, "UNIT_BUFF", function(event, unit)
 			if( frame.unit == unit ) then
@@ -33,7 +37,7 @@ end
 function Auras:OnDisable(frame)
 	frame:UnregisterAll(self)
 
-	if( frame.unit == "target" ) then
+	if( WoWClassic and LibClassicDurations and frame.unit == "target" ) then
 		LibClassicDurations.UnregisterCallback(frame, "UNIT_BUFF")
 	end
 end
@@ -562,7 +566,7 @@ local function renderAura(parent, frame, type, config, displayConfig, index, fil
 	end
 
 	-- Try to obtain missing aura durations from LibClassicDurations
-	if( spellID and name and duration == 0 ) then
+	if( WoWClassic and LibClassicDurations and spellID and name and duration == 0 ) then
 		local durationEstimated, endTimeEstimated = LibClassicDurations:GetAuraDurationByUnit(frame.parent.unit, spellID, caster, name)
 		if( durationEstimated ) then
 			duration = durationEstimated

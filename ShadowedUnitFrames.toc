@@ -8,7 +8,7 @@
 ## SavedVariables: ShadowedUFDB
 ## X-Website: https://www.wowace.com/addons/shadowed-unit-frames/
 #@version-bcc@
-## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibHealComm-4.0, LibClassicCasterino
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, Clique, LibHealComm-4.0
 #@end-version-bcc@
 #@non-version-bcc@
 # ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibHealComm-4.0, LibClassicCasterino
@@ -22,9 +22,11 @@ libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibSharedMedia-3.0\lib.xml
 libs\AceDB-3.0\AceDB-3.0.xml
 libs\LibSpellRange-1.0\lib.xml
-libs\LibClassicDurations\LibClassicDurations.xml
+#@non-version-bcc@
+# libs\LibClassicDurations\LibClassicDurations.xml
+# libs\LibClassicCasterino\LibClassicCasterino.lua
+#@end-non-version-bcc@
 libs\LibHealComm-4.0\LibHealComm-4.0.xml
-libs\LibClassicCasterino\LibClassicCasterino.lua
 libs\LibTotemInfo-1.0\embeds.xml
 #@end-no-lib-strip@
 

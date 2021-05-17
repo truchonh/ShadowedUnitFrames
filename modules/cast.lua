@@ -1,23 +1,30 @@
 local Cast = {}
 local L = ShadowUF.L
 local FADE_TIME = 0.30
+
+local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 local LibCC = LibStub("LibClassicCasterino", true)
 
 ShadowUF:RegisterModule(Cast, "castBar", L["Cast bar"], true)
 
-local UnitCastingInfo = function(unit)
-	if (unit == "player") then
-		return CastingInfo()
-	else
-		return LibCC:UnitCastingInfo(unit)
-	end
-end
+local UnitCastingInfo = UnitCastingInfo
+local UnitChannelInfo = UnitChannelInfo
 
-local UnitChannelInfo = function(unit)
-	if (unit == "player") then
-		return ChannelInfo()
-	else
-		return LibCC:UnitChannelInfo(unit)
+if WoWClassic then
+	UnitCastingInfo = function(unit)
+		if (unit == "player") then
+			return CastingInfo()
+		elseif (LibCC) then
+			return LibCC:UnitCastingInfo(unit)
+		end
+	end
+
+	UnitChannelInfo = function(unit)
+		if (unit == "player") then
+			return ChannelInfo()
+		elseif (LibCC) then
+			return LibCC:UnitChannelInfo(unit)
+		end
 	end
 end
 
@@ -34,7 +41,7 @@ function Cast:OnEnable(frame)
 		frame.castBar.bar.time = frame.castBar.bar:CreateFontString(nil, "ARTWORK")
 	end
 
-	if (frame.unit == "player") then
+	if (not WoWClassic or frame.unit == "player") then
 		frame:RegisterUnitEvent("UNIT_SPELLCAST_START", self, "EventUpdateCast")
 		frame:RegisterUnitEvent("UNIT_SPELLCAST_STOP", self, "EventStopCast")
 		frame:RegisterUnitEvent("UNIT_SPELLCAST_FAILED", self, "EventStopCast")
@@ -45,7 +52,7 @@ function Cast:OnEnable(frame)
 		frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_START", self, "EventUpdateChannel")
 		frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_STOP", self, "EventStopCast")
 		frame:RegisterUnitEvent("UNIT_SPELLCAST_CHANNEL_UPDATE", self, "EventDelayChannel")
-	else
+	elseif (LibCC) then
 		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_START", function(...) Cast:EventUpdateCast(frame, ...) end)
 		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_STOP", function(...) Cast:EventStopCast(frame, ...) end)
 		LibCC.RegisterCallback(frame, "UNIT_SPELLCAST_FAILED", function(...) Cast:EventStopCast(frame, ...) end)
@@ -135,7 +142,9 @@ end
 
 function Cast:OnDisable(frame, unit)
 	frame:UnregisterAll(self)
-	LibCC.UnregisterAllCallbacks(frame)
+	if WoWClassic and LibCC then
+		LibCC.UnregisterAllCallbacks(frame)
+	end
 
 	if( frame.castBar ) then
 		frame.castBar.bar.name:Hide()
