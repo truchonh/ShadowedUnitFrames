@@ -3,6 +3,7 @@ local L = ShadowUF.L
 local FADE_TIME = 0.30
 
 local WoWClassic = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local LibCC = LibStub("LibClassicCasterino", true)
 
 ShadowUF:RegisterModule(Cast, "castBar", L["Cast bar"], true)
@@ -25,6 +26,19 @@ if WoWClassic then
 		elseif (LibCC) then
 			return LibCC:UnitChannelInfo(unit)
 		end
+	end
+end
+if WoWBC then
+	UnitCastingInfo = function(unit)
+		-- nonInterruptible is missing from the returns
+		local name, text, texture, startTime, endTime, isTradeSkill, castID, spellID = _G.UnitCastingInfo(unit)
+		return name, text, texture, startTime, endTime, isTradeSkill, castID, nil, spellID
+	end
+
+	UnitChannelInfo = function(unit)
+		-- nonInterruptible is missing from the returns
+		local name, text, texture, startTime, endTime, isTradeSkill, spellID = _G.UnitChannelInfo(unit)
+		return name, text, texture, startTime, endTime, isTradeSkill, nil, spellID
 	end
 end
 
