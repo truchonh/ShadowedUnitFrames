@@ -75,7 +75,7 @@ function Highlight:OnEnable(frame)
 	frame.highlight.right:SetWidth(ShadowUF.db.profile.units[frame.unitType].highlight.size)
 
 
-	if( ShadowUF.db.profile.units[frame.unitType].highlight.attention and frame.unitType ~= "target" ) then
+	if( ShadowUF.db.profile.units[frame.unitType].highlight.attention and frame.unitType ~= "target" and frame.unitType ~= "focus" ) then
 		frame:RegisterNormalEvent("PLAYER_TARGET_CHANGED", self, "UpdateAttention")
 		frame:RegisterUpdateFunc(self, "UpdateAttention")
 	end
@@ -150,7 +150,7 @@ function Highlight:Update(frame)
 end
 
 function Highlight:UpdateAttention(frame)
-	frame.highlight.hasAttention = UnitIsUnit(frame.unit, "target") or nil
+	frame.highlight.hasAttention = UnitIsUnit(frame.unit, "target") or UnitIsUnit(frame.unit, "focus") or nil
 	self:Update(frame)
 end
 
