@@ -1,4 +1,5 @@
-## Interface: 11307
+## Interface: 20501
+## Interface-Classic: 11307
 ## Interface-BCC: 20501
 ## Title: Shadowed Unit Frames
 ## Notes: Moooooooooooooooooo
@@ -6,7 +7,12 @@
 ## Version: @project-version@
 ## SavedVariables: ShadowedUFDB
 ## X-Website: https://www.wowace.com/addons/shadowed-unit-frames/
+#@version-bcc@
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibHealComm-4.0, LibClassicCasterino
+#@end-version-bcc@
+#@non-version-bcc@
+# ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibHealComm-4.0, LibClassicCasterino
+#@end-non-version-bcc@
 ## X-Curse-Project-ID: 19268
 ## X-WoWI-ID: 13494
 
