@@ -28,8 +28,6 @@ for i=1, 5 do ShadowUF.arenaUnits[i] = "arena" .. i end
 for i=1, 4 do ShadowUF.battlegroundUnits[i] = "arena" .. i end
 
 local TagEnv = setmetatable({
-	UnitHealth = ShadowUF.API.UnitHealth,
-	UnitHealthMax = ShadowUF.API.UnitHealthMax,
 }, { __index = _G, __newindex = function(k,v) _G[k] = v end })
 
 function ShadowUF:OnInitialize()

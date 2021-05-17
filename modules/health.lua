@@ -2,8 +2,6 @@ local Health = {}
 ShadowUF:RegisterModule(Health, "healthBar", ShadowUF.L["Health bar"], true)
 local canCure = ShadowUF.Units.canCure
 
-local UnitHealth, UnitHealthMax = ShadowUF.API.UnitHealth, ShadowUF.API.UnitHealthMax
-
 local function getGradientColor(unit)
 	local maxHealth = UnitHealthMax(unit)
 	local percent = maxHealth > 0 and UnitHealth(unit) / maxHealth or 0
