@@ -102,7 +102,7 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 		borderColor = {r = 0.30, g = 0.30, b = 0.50, a = 1},
 	}
 	config.hidden = {
-		cast = false, buffs = false, party = true, player = true, pet = true, target = true, boss = true, arena = true, playerAltPower = false, playerPower = true
+		cast = false, buffs = false, party = true, player = true, pet = true, target = true, focus = true, boss = true, arena = true, playerAltPower = false, playerPower = true
 	}
 	config.font = {
 		name = "Myriad Condensed Web",
@@ -198,6 +198,7 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 		targettargettarget = {anchorPoint = "RC", anchorTo = "#SUFUnittargettarget", x = 0, y = 0},
 		targettarget = {anchorPoint = "TL", anchorTo = "#SUFUnittarget", x = 0, y = 0},
 		party = {point = "TOPLEFT", anchorTo = "#SUFUnitplayer", relativePoint = "TOPLEFT", movedAnchor = "TL", x = 0, y = -60},
+		focus = {anchorPoint = "RB", anchorTo = "#SUFUnittarget", x = 35, y = -4},
 		target = {anchorPoint = "RC", anchorTo = "#SUFUnitplayer", x = 50, y = 0},
 		player = {point = "TOPLEFT", anchorTo = "UIParent", relativePoint = "TOPLEFT", y = -25, x = 20},
 		pet = {anchorPoint = "TL", anchorTo = "#SUFUnitplayer", x = 0, y = 0},
@@ -829,6 +830,49 @@ function ShadowUF:LoadDefaultLayout(useMerge)
 				{text = "[perpp]"},
 				{text = "[curmaxpp]"},
 				{text = "[name]"},
+				{text = ""},
+			},
+		},
+		focus = {
+			width = 120,
+			height = 28,
+			scale = 1.0,
+			powerBar = {height = 0.60},
+			healAbsorb = {cap = 1},
+			portrait = {enabled = false, fullAfter = 50},
+			castBar = {order = 60},
+			indicators = {
+				lfdRole = {enabled = false},
+				resurrect = {enabled = true, anchorPoint = "LC", size = 28, x = 37, y = -1, anchorTo = "$parent"},
+				sumPending = {enabled = true, anchorPoint = "C", size = 40, x = 0, y = 0, anchorTo = "$parent"},
+				questBoss = {enabled = false, anchorPoint = "BR", size = 22, x = 7, y = 14, anchorTo = "$parent"},
+				petBattle = {enabled = false, anchorPoint = "BL", size = 18, x = -6, y = 12, anchorTo = "$parent"}
+			},
+			text = {
+				{text = "[(()afk() )][name]"},
+				{text = "[curhp]"},
+				{text = "[perpp]"},
+				{text = "[curpp]"},
+				{text = "[(()afk() )][name]"},
+				{text = ""},
+			},
+		},
+		focustarget = {
+			width = 120,
+			height = 25,
+			scale = 1.0,
+			powerBar = {height = 0.60},
+			healAbsorb = {cap = 1},
+			portrait = {alignment = "RIGHT"},
+			indicators = {
+				pvp = {anchorTo = "$parent", anchorPoint = "BL", size = 22, x = -3, y = 11},
+			},
+			text = {
+				{text = "[(()afk() )][name]"},
+				{text = "[curhp]"},
+				{text = ""},
+				{text = ""},
+				{text = "[(()afk() )][name]"},
 				{text = ""},
 			},
 		},

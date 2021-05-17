@@ -6,14 +6,14 @@ ShadowUF = select(2, ...)
 
 local L = ShadowUF.L
 ShadowUF.dbRevision = 61
-ShadowUF.dbRevisionClassic = 2
+ShadowUF.dbRevisionClassic = 3
 ShadowUF.playerUnit = "player"
 ShadowUF.enabledUnits = {}
 ShadowUF.modules = {}
 ShadowUF.moduleOrder = {}
-ShadowUF.unitList = {"player", "pet", "pettarget", "target", "targettarget", "targettargettarget", "party", "partypet", "partytarget", "partytargettarget", "raid", "raidpet", "boss", "bosstarget", "maintank", "maintanktarget", "mainassist", "mainassisttarget", "arena", "arenatarget", "arenapet", "battleground", "battlegroundtarget", "battlegroundpet", "arenatargettarget", "battlegroundtargettarget", "maintanktargettarget", "mainassisttargettarget", "bosstargettarget"}
-ShadowUF.fakeUnits = {["targettarget"] = true, ["targettargettarget"] = true, ["pettarget"] = true, ["arenatarget"] = true, ["arenatargettarget"] = true, ["partytarget"] = true, ["raidtarget"] = true, ["bosstarget"] = true, ["maintanktarget"] = true, ["mainassisttarget"] = true, ["battlegroundtarget"] = true, ["partytargettarget"] = true, ["battlegroundtargettarget"] = true, ["maintanktargettarget"] = true, ["mainassisttargettarget"] = true, ["bosstargettarget"] = true}
-L.units = {["raidpet"] = L["Raid pet"], ["PET"] = L["Pet"], ["arena"] = L["Arena"], ["arenapet"] = L["Arena Pet"], ["arenatarget"] = L["Arena Target"], ["arenatargettarget"] = L["Arena Target of Target"], ["boss"] = L["Boss"], ["bosstarget"] = L["Boss Target"],["mainassist"] = L["Main Assist"], ["mainassisttarget"] = L["Main Assist Target"], ["maintank"] = L["Main Tank"], ["maintanktarget"] = L["Main Tank Target"], ["party"] = L["Party"], ["partypet"] = L["Party Pet"], ["partytarget"] = L["Party Target"], ["pet"] = L["Pet"], ["pettarget"] = L["Pet Target"], ["player"] = L["Player"],["raid"] = L["Raid"], ["target"] = L["Target"], ["targettarget"] = L["Target of Target"], ["targettargettarget"] = L["Target of Target of Target"], ["battleground"] = L["Battleground"], ["battlegroundpet"] = L["Battleground Pet"], ["battlegroundtarget"] = L["Battleground Target"], ["partytargettarget"] = L["Party Target of Target"], ["battlegroundtargettarget"] = L["Battleground Target of Target"], ["maintanktargettarget"] = L["Main Tank Target of Target"], ["mainassisttargettarget"] = L["Main Assist Target of Target"], ["bosstargettarget"] = L["Boss Target of Target"]}
+ShadowUF.unitList = {"player", "pet", "pettarget", "target", "targettarget", "targettargettarget", "focus", "focustarget", "party", "partypet", "partytarget", "partytargettarget", "raid", "raidpet", "boss", "bosstarget", "maintank", "maintanktarget", "mainassist", "mainassisttarget", "arena", "arenatarget", "arenapet", "battleground", "battlegroundtarget", "battlegroundpet", "arenatargettarget", "battlegroundtargettarget", "maintanktargettarget", "mainassisttargettarget", "bosstargettarget"}
+ShadowUF.fakeUnits = {["targettarget"] = true, ["targettargettarget"] = true, ["pettarget"] = true, ["arenatarget"] = true, ["arenatargettarget"] = true, ["focustarget"] = true, ["focustargettarget"] = true, ["partytarget"] = true, ["raidtarget"] = true, ["bosstarget"] = true, ["maintanktarget"] = true, ["mainassisttarget"] = true, ["battlegroundtarget"] = true, ["partytargettarget"] = true, ["battlegroundtargettarget"] = true, ["maintanktargettarget"] = true, ["mainassisttargettarget"] = true, ["bosstargettarget"] = true}
+L.units = {["raidpet"] = L["Raid pet"], ["PET"] = L["Pet"], ["arena"] = L["Arena"], ["arenapet"] = L["Arena Pet"], ["arenatarget"] = L["Arena Target"], ["arenatargettarget"] = L["Arena Target of Target"], ["boss"] = L["Boss"], ["bosstarget"] = L["Boss Target"], ["focus"] = L["Focus"], ["focustarget"] = L["Focus Target"], ["mainassist"] = L["Main Assist"], ["mainassisttarget"] = L["Main Assist Target"], ["maintank"] = L["Main Tank"], ["maintanktarget"] = L["Main Tank Target"], ["party"] = L["Party"], ["partypet"] = L["Party Pet"], ["partytarget"] = L["Party Target"], ["pet"] = L["Pet"], ["pettarget"] = L["Pet Target"], ["player"] = L["Player"],["raid"] = L["Raid"], ["target"] = L["Target"], ["targettarget"] = L["Target of Target"], ["targettargettarget"] = L["Target of Target of Target"], ["battleground"] = L["Battleground"], ["battlegroundpet"] = L["Battleground Pet"], ["battlegroundtarget"] = L["Battleground Target"], ["partytargettarget"] = L["Party Target of Target"], ["battlegroundtargettarget"] = L["Battleground Target of Target"], ["maintanktargettarget"] = L["Main Tank Target of Target"], ["mainassisttargettarget"] = L["Main Assist Target of Target"], ["bosstargettarget"] = L["Boss Target of Target"]}
 L.shortUnits = {["battleground"] = L["BG"], ["battlegroundtarget"] = L["BG Target"], ["battlegroundpet"] = L["BG Pet"], ["battlegroundtargettarget"] = L["BG ToT"], ["arenatargettarget"] = L["Arena ToT"], ["partytargettarget"] = L["Party ToT"], ["bosstargettarget"] = L["Boss ToT"], ["maintanktargettarget"] = L["MT ToT"], ["mainassisttargettarget"] = L["MA ToT"]}
 
 -- Cache the units so we don't have to concat every time it updates
@@ -44,7 +44,7 @@ function ShadowUF:OnInitialize()
 			range = {},
 			filters = {zonewhite = {}, zoneblack = {}, zoneoverride = {}, whitelists = {}, blacklists = {}, overridelists = {}},
 			visibility = {arena = {}, pvp = {}, party = {}, raid = {}},
-			hidden = {cast = false, playerPower = true, buffs = false, party = true, raid = false, player = true, pet = true, target = true, boss = true, arena = true, playerAltPower = false},
+			hidden = {cast = false, playerPower = true, buffs = false, party = true, raid = false, player = true, pet = true, target = true, focus = true, boss = true, arena = true, playerAltPower = false},
 		},
 	}
 
@@ -117,6 +117,9 @@ end
 function ShadowUF:CheckUpgrade()
 	local revisionClassic = self.db.profile.revisionClassic or (self.db.profile.revision and 1 or self.dbRevisionClassic)
 	local revision = self.db.profile.revision or self.dbRevision
+	if( revisionClassic <= 2 ) then
+		ShadowUF:LoadDefaultLayout(true)
+	end
 	if( revisionClassic <= 1 ) then
 		local indicators = self.db.profile.units.pet.indicators or {}
 		self.db.profile.units.pet.indicators = indicators
@@ -322,7 +325,7 @@ function ShadowUF:LoadUnitDefaults()
 			end
 		end
 
-		if( unit == "player" or unit == "party" or unit == "target" or unit == "raid" or unit == "mainassist" or unit == "maintank" ) then
+		if( unit == "player" or unit == "party" or unit == "target" or unit == "raid" or unit == "focus" or unit == "mainassist" or unit == "maintank" ) then
 			self.defaults.profile.units[unit].indicators.leader = {enabled = true, size = 0}
 			self.defaults.profile.units[unit].indicators.masterLoot = {enabled = true, size = 0}
 			self.defaults.profile.units[unit].indicators.pvp = {enabled = true, size = 0}
@@ -330,7 +333,7 @@ function ShadowUF:LoadUnitDefaults()
 			self.defaults.profile.units[unit].indicators.status = {enabled = false, size = 19}
 			self.defaults.profile.units[unit].indicators.resurrect = {enabled = true}
 
-			if( unit ~= "target" ) then
+			if( unit ~= "focus"  and unit ~= "target" ) then
 				self.defaults.profile.units[unit].indicators.ready = {enabled = true, size = 0}
 			end
 		end
@@ -361,6 +364,14 @@ function ShadowUF:LoadUnitDefaults()
 	self.defaults.profile.units.pet.fader = {enabled = false, combatAlpha = 1.0, inactiveAlpha = 0.60}
 	self.defaults.profile.units.pet.xpBar = {enabled = false}
 	self.defaults.profile.units.pet.indicators.happiness = {enabled = true, size = 0, x = 0, y = 0}
+    -- FOCUS
+	self.defaults.profile.units.focus.enabled = true
+	self.defaults.profile.units.focus.fader = {enabled = false, combatAlpha = 1.0, inactiveAlpha = 0.60}
+	self.defaults.profile.units.focus.indicators.lfdRole = {enabled = false, size = 0, x = 0, y = 0}
+	self.defaults.profile.units.focus.indicators.questBoss = {enabled = true, size = 0, x = 0, y = 0}
+	-- FOCUSTARGET
+	self.defaults.profile.units.focustarget.enabled = true
+	self.defaults.profile.units.focustarget.fader = {enabled = false, combatAlpha = 1.0, inactiveAlpha = 0.60}
 	-- TARGET
 	self.defaults.profile.units.target.enabled = true
 	self.defaults.profile.units.target.indicators.questBoss = {enabled = true, size = 0, x = 0, y = 0}
@@ -736,6 +747,10 @@ function ShadowUF:HideBlizzardFrames()
 
 	if( self.db.profile.hidden.target and not active_hiddens.target ) then
 		hideBlizzardFrames(false, TargetFrame, ComboFrame, TargetFrameToT)
+	end
+
+	if( self.db.profile.hidden.focus and not active_hiddens.focus ) then
+		hideBlizzardFrames(false, FocusFrame, FocusFrameToT)
 	end
 
 	if( self.db.profile.hidden.boss and not active_hiddens.boss ) then
