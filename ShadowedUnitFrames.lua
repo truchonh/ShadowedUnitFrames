@@ -6,7 +6,7 @@ ShadowUF = select(2, ...)
 
 local L = ShadowUF.L
 ShadowUF.dbRevision = 61
-ShadowUF.dbRevisionClassic = 3
+ShadowUF.dbRevisionClassic = 4
 ShadowUF.playerUnit = "player"
 ShadowUF.enabledUnits = {}
 ShadowUF.modules = {}
@@ -117,7 +117,7 @@ end
 function ShadowUF:CheckUpgrade()
 	local revisionClassic = self.db.profile.revisionClassic or (self.db.profile.revision and 1 or self.dbRevisionClassic)
 	local revision = self.db.profile.revision or self.dbRevision
-	if( revisionClassic <= 2 ) then
+	if( revisionClassic <= 4 or not self.db.profile.revisionClassic ) then
 		ShadowUF:LoadDefaultLayout(true)
 	end
 	if( revisionClassic <= 1 ) then
