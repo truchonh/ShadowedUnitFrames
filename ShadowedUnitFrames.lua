@@ -753,7 +753,7 @@ function ShadowUF:HideBlizzardFrames()
 		hideBlizzardFrames(false, TargetFrame, ComboFrame, TargetFrameToT)
 	end
 
-	if( self.db.profile.hidden.focus and not active_hiddens.focus ) then
+	if( self.db.profile.hidden.focus and not active_hiddens.focus and FocusFrame and FocusFrameToT ) then
 		hideBlizzardFrames(false, FocusFrame, FocusFrameToT)
 	end
 
