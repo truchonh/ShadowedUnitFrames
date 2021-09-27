@@ -11,7 +11,7 @@
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, Clique, LibHealComm-4.0
 #@end-version-bcc@
 #@non-version-bcc@
-# ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibHealComm-4.0, LibClassicCasterino
+# ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibClassicCasterino
 #@end-non-version-bcc@
 ## X-Curse-Project-ID: 19268
 ## X-WoWI-ID: 13494
@@ -26,7 +26,6 @@ libs\LibSpellRange-1.0\lib.xml
 # libs\LibClassicDurations\LibClassicDurations.xml
 # libs\LibClassicCasterino\LibClassicCasterino.lua
 #@end-non-version-bcc@
-libs\LibHealComm-4.0\LibHealComm-4.0.xml
 #@end-no-lib-strip@
 
 localization\enUS.lua

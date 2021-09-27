@@ -3428,19 +3428,23 @@ local function loadUnitOptions()
 						type = "group",
 						inline = false,
 						name = L["Incoming heals"],
-						hidden = hideRestrictedOption,
+						hidden = function(info) return ShadowUF.Units.zoneUnits[info[2]] or hideRestrictedOption(info) end,
 						disabled = function(info) return not getVariable(info[2], "healthBar", nil, "enabled") end,
 						args = {
-							enabled = {
+							heals = {
 								order = 1,
 								type = "toggle",
-								name = string.format(L["Enable %s"], L["Incoming heals"]),
-								desc = L["Adds a bar inside the health bar indicating how much healing someone is estimated to be receiving."],
+								name = L["Show incoming heals"],
+								desc = L["Adds a bar inside the health bar indicating how much healing someone will receive."],
 								arg = "incHeal.enabled",
 								hidden = false,
+								set = function(info, value)
+									setUnit(info, value)
+									setDirectUnit(info[2], "incHeal", nil, "enabled", getVariable(info[2], "incHeal", nil, "enabled"))
+								end
 							},
 							cap = {
-								order = 2,
+								order = 3,
 								type = "range",
 								name = L["Outside bar limit"],
 								desc = L["Percentage value of how far outside the unit frame the incoming heal bar can go. 130% means it will go 30% outside the frame, 100% means it will not go outside."],
