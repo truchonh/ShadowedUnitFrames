@@ -580,15 +580,6 @@ local rehideFrame = function(self)
 	end
 end
 
-local function basicHideBlizzardFrames(...)
-	for i=1, select("#", ...) do
-		local frame = select(i, ...)
-		frame:UnregisterAllEvents()
-		frame:HookScript("OnShow", rehideFrame)
-		frame:Hide()
-	end
-end
-
 local function hideBlizzardFrames(taint, ...)
 	for i=1, select("#", ...) do
 		local frame = select(i, ...)
