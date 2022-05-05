@@ -1,6 +1,4 @@
 ## Interface: 20502
-## Interface-Classic: 11307
-## Interface-BCC: 20502
 ## Title: Shadowed UF (Options)
 ## Notes: Configuration for Shadowed Unit Frames.
 ## Author: Shadowed
@@ -15,3 +13,10 @@ libs\AceConfig-3.0\AceConfig-3.0.xml
 #@end-no-lib-strip@
 
 config.lua
+sections\AuraIndicatorsConfiguration.lua
+sections\FilterConfiguration.lua
+sections\GeneralConfiguration.lua
+sections\HideConfiguration.lua
+sections\TagConfiguration.lua
+sections\VisibilityConfiguration.lua
+sections\UnitConfiguration.lua

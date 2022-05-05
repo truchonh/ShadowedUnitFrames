@@ -1,18 +1,11 @@
 ## Interface: 20502
-## Interface-Classic: 11307
-## Interface-BCC: 20502
 ## Title: Shadowed Unit Frames
 ## Notes: Moooooooooooooooooo
 ## Author: Shadowed
-## Version: @project-version@
+## Version: v4.3.2-classic
 ## SavedVariables: ShadowedUFDB
 ## X-Website: https://www.wowace.com/addons/shadowed-unit-frames/
-#@version-bcc@
 ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, Clique, LibHealComm-4.0
-#@end-version-bcc@
-#@non-version-bcc@
-# ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibClassicCasterino
-#@end-non-version-bcc@
 ## X-Curse-Project-ID: 19268
 ## X-WoWI-ID: 13494
 
@@ -22,10 +15,7 @@ libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibSharedMedia-3.0\lib.xml
 libs\AceDB-3.0\AceDB-3.0.xml
 libs\LibSpellRange-1.0\lib.xml
-#@non-version-bcc@
-# libs\LibClassicDurations\LibClassicDurations.xml
-# libs\LibClassicCasterino\LibClassicCasterino.lua
-#@end-non-version-bcc@
+libs\LibHealComm-4.0\LibHealComm-4.0.xml
 #@end-no-lib-strip@
 
 localization\enUS.lua
@@ -65,6 +55,3 @@ modules\combopoints.lua
 modules\range.lua
 modules\empty.lua
 modules\druid.lua
-#@do-not-package@
-options\config.lua
-#@end-do-not-package@
