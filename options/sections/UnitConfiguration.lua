@@ -28,28 +28,6 @@ local function getModuleOrder(info)
 	return key == "healthBar" and 1 or key == "powerBar" and 2 or key == "castBar" and 3 or 4
 end
 
-local function specialRestricted(unit, moduleKey, moduleSubKey, key)
-	if( ShadowUF.fakeUnits[unit] and ( key == "colorAggro" or key == "aggro" or key == "colorDispel" or moduleKey == "castBar" or moduleKey == "incHeal" ) ) then
-		return true
-	elseif( moduleKey == "healthBar" and unit == "player" and key == "reaction" ) then
-		return true
-	end
-end
-
-local function setDirectUnit(unit, moduleKey, moduleSubKey, key, value)
-	if( unit == "global" ) then
-		for globalUnit in pairs(Config.modifyUnits) do
-			if( not specialRestricted(globalUnit, moduleKey, moduleSubKey, key) ) then
-				Config.setVariable(globalUnit, moduleKey, moduleSubKey, key, value)
-			end
-		end
-
-		Config.setVariable("global", moduleKey, moduleSubKey, key, value)
-	else
-		Config.setVariable(unit, moduleKey, moduleSubKey, key, value)
-	end
-end
-
 function _Config:loadUnitOptions()
 	local enableUnitsOptions, unitsOptions
 
@@ -2023,7 +2001,7 @@ function _Config:loadUnitOptions()
 								hidden = false,
 								set = function(info, value)
 									Config.setUnit(info, value)
-									setDirectUnit(info[2], "incHeal", nil, "enabled", Config.getVariable(info[2], "incHeal", nil, "enabled"))
+									_Config.setDirectUnit(info[2], "incHeal", nil, "enabled", Config.getVariable(info[2], "incHeal", nil, "enabled"))
 								end
 							},
 							cap = {

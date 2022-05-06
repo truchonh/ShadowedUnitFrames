@@ -223,6 +223,28 @@ local function setVariable(unit, moduleKey, moduleSubKey, key, value)
 	end
 end
 
+local function specialRestricted(unit, moduleKey, moduleSubKey, key)
+	if( ShadowUF.fakeUnits[unit] and ( key == "colorAggro" or key == "aggro" or key == "colorDispel" or moduleKey == "castBar" or moduleKey == "incHeal" ) ) then
+		return true
+	elseif( moduleKey == "healthBar" and unit == "player" and key == "reaction" ) then
+		return true
+	end
+end
+
+local function setDirectUnit(unit, moduleKey, moduleSubKey, key, value)
+	if( unit == "global" ) then
+		for globalUnit in pairs(Config.modifyUnits) do
+			if( not specialRestricted(globalUnit, moduleKey, moduleSubKey, key) ) then
+				Config.setVariable(globalUnit, moduleKey, moduleSubKey, key, value)
+			end
+		end
+
+		Config.setVariable("global", moduleKey, moduleSubKey, key, value)
+	else
+		Config.setVariable(unit, moduleKey, moduleSubKey, key, value)
+	end
+end
+
 local function setUnit(info, value)
 	local unit = info[2]
 	-- auras, buffs, enabled / text, 1, text / portrait, enabled
@@ -364,6 +386,7 @@ Config.private.writeTable = writeTable
 Config.private.getTagName = getTagName
 Config.private.getTagHelp = getTagHelp
 Config.private.mergeTables = mergeTables
+Config.private.setDirectUnit = setDirectUnit
 
 Config.private.quickIDMap = {}
 
