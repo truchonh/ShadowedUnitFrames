@@ -276,7 +276,7 @@ function _Config:loadGeneralOptions()
 						type = "execute",
 						name = L["Export"],
 						func = function(info)
-							layoutData.export = _Config.writeTable(ShadowUF.db.profile)
+							layoutData.export = Config.writeTable(ShadowUF.db.profile)
 						end,
 					},
 					export = {
@@ -993,12 +993,12 @@ function _Config:loadGeneralOptions()
 		arg = "classColors.$key",
 	}
 
-	for classToken in pairs(RAID_CLASS_COLORS) do
+	for classToken in pairs(Config.const.CLASSIC_RAID_CLASS_COLORS) do
 		generalOptions.args.color.args.classColors.args[classToken] = Config.classTable
 	end
 
 	generalOptions.args.color.args.classColors.args.PET = Config.classTable
-	generalOptions.args.color.args.classColors.args.VEHICLE = Config.classTable
+	--generalOptions.args.color.args.classColors.args.VEHICLE = Config.classTable
 
 	return generalOptions
 end

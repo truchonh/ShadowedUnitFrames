@@ -484,7 +484,7 @@ function ShadowUF:LoadUnitDefaults()
 		auras = {}
 	}
 
-	for classToken in pairs(RAID_CLASS_COLORS) do
+	for classToken in pairs(Config.const.CLASSIC_RAID_CLASS_COLORS) do
 		self.defaults.profile.auraIndicators.disabled[classToken] = {}
 	end
 end

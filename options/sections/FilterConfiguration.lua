@@ -457,7 +457,7 @@ function _Config:loadFilterOptions()
 		type = "group",
 		name = L["Aura Filters"],
 		childGroups = "tab",
-		desc = _Config.getPageDescription,
+		desc = Config.getPageDescription,
 		args = {
 			groups = {
 				order = 1,

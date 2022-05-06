@@ -384,8 +384,8 @@ function _Config:loadUnitOptions()
 			order = 0,
 			type = "toggle",
 			hidden = hideBlacklistedTag,
-			name = _Config.getTagName,
-			desc = _Config.getTagHelp,
+			name = Config.getTagName,
+			desc = Config.getTagHelp,
 		}
 
 		for tag in pairs(ShadowUF.Tags.defaultTags) do
@@ -1121,7 +1121,7 @@ function _Config:loadUnitOptions()
 								name = L["On aggro"],
 								desc = L["Highlight units that have aggro on any mob."],
 								arg = "highlight.aggro",
-								hidden = function(info) return ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]] end,
+								hidden = function(info) return ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]] or info[2] == "maintank" end,
 							},
 							debuff = {
 								order = 6,
@@ -2001,7 +2001,7 @@ function _Config:loadUnitOptions()
 								hidden = false,
 								set = function(info, value)
 									Config.setUnit(info, value)
-									_Config.setDirectUnit(info[2], "incHeal", nil, "enabled", Config.getVariable(info[2], "incHeal", nil, "enabled"))
+									Config.setDirectUnit(info[2], "incHeal", nil, "enabled", Config.getVariable(info[2], "incHeal", nil, "enabled"))
 								end
 							},
 							cap = {
@@ -2496,7 +2496,7 @@ function _Config:loadUnitOptions()
 										Config.modifyUnits[unit] = value and true or nil
 
 										if( value ) then
-											Config.globalConfig = _Config.mergeTables(Config.globalConfig, ShadowUF.db.profile.units[unit])
+											Config.globalConfig = Config.mergeTables(Config.globalConfig, ShadowUF.db.profile.units[unit])
 										end
 									end
 								end
@@ -2505,7 +2505,7 @@ function _Config:loadUnitOptions()
 								Config.modifyUnits[unit] = value and true or nil
 
 								if( value ) then
-									Config.globalConfig = _Config.mergeTables(Config.globalConfig, ShadowUF.db.profile.units[unit])
+									Config.globalConfig = Config.mergeTables(Config.globalConfig, ShadowUF.db.profile.units[unit])
 								end
 							end
 

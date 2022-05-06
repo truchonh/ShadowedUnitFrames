@@ -268,7 +268,9 @@ function Indicators:UpdateAuras(frame)
 		if( not auraList[name] and self.auraConfig[name] ) then
 			local aura = self.auraConfig[name]
 			local indicator = frame.auraIndicators[aura.indicator]
-			if( indicator and indicator.enabled and aura.priority > indicator.priority and not ShadowUF.db.profile.auraIndicators.disabled[playerClass][name] ) then
+			local disabledByClass = ShadowUF.db.profile.auraIndicators.disabled[playerClass][name]
+			local disabledByGroup = ShadowUF.db.profile.units[frame.unitType].auraIndicators[aura.group]
+			if( indicator and indicator.enabled and aura.priority > indicator.priority and not disabledByClass and not disabledByGroup ) then
 				indicator.priority = aura.priority or -1
 				indicator.showIcon = aura.icon
 				indicator.showDuration = aura.duration

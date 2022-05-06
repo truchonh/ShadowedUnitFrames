@@ -59,7 +59,7 @@ function _Config:loadAuraIndicatorsOptions()
 	end
 
 	local function writeAuraTable(name)
-		ShadowUF.db.profile.auraIndicators.auras[name] = _Config.writeTable(Indicators.auraConfig[name])
+		ShadowUF.db.profile.auraIndicators.auras[name] = Config.writeTable(Indicators.auraConfig[name])
 		Indicators.auraConfig[name] = nil
 
 		local spellID = tonumber(name)
@@ -1129,7 +1129,7 @@ function _Config:loadAuraIndicatorsOptions()
 	end
 
 	-- Build class status thing
-	for classToken in pairs(RAID_CLASS_COLORS) do
+	for classToken in pairs(Config.const.CLASSIC_RAID_CLASS_COLORS) do
 		auraIndicatorsOptions.args.classes.args[classToken] = classTable
 	end
 

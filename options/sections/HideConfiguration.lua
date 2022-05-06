@@ -23,7 +23,7 @@ function _Config:loadHideOptions()
 	return {
 		type = "group",
 		name = L["Hide Blizzard"],
-		desc = _Config.getPageDescription,
+		desc = Config.getPageDescription,
 		args = {
 			help = {
 				order = 0,

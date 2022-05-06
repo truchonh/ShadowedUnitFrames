@@ -178,7 +178,7 @@ function _Config:loadVisibilityOptions()
 		type = "group",
 		childGroups = "tab",
 		name = L["Zone Configuration"],
-		desc = _Config.getPageDescription,
+		desc = Config.getPageDescription,
 		args = {
 			start = {
 				order = 0,

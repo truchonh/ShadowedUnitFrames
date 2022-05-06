@@ -52,6 +52,18 @@ local TAG_GROUPS = {["classification"] = L["Classifications"], ["health"] = L["H
 local pointPositions = {["BOTTOM"] = L["Bottom"], ["TOP"] = L["Top"], ["LEFT"] = L["Left"], ["RIGHT"] = L["Right"], ["TOPLEFT"] = L["Top Left"], ["TOPRIGHT"] = L["Top Right"], ["BOTTOMLEFT"] = L["Bottom Left"], ["BOTTOMRIGHT"] = L["Bottom Right"], ["CENTER"] = L["Center"]}
 local positionList = {["C"] = L["Center"], ["RT"] = L["Right Top"], ["RC"] = L["Right Center"], ["RB"] = L["Right Bottom"], ["LT"] = L["Left Top"], ["LC"] = L["Left Center"], ["LB"] = L["Left Bottom"], ["BL"] = L["Bottom Left"], ["BC"] = L["Bottom Center"], ["BR"] = L["Bottom Right"], ["TR"] = L["Top Right"], ["TC"] = L["Top Center"], ["TL"] = L["Top Left"]}
 
+local CLASSIC_RAID_CLASS_COLORS = {
+	["HUNTER"] = RAID_CLASS_COLORS["HUNTER"],
+	["WARRIOR"] = RAID_CLASS_COLORS["WARRIOR"],
+	["PALADIN"] = RAID_CLASS_COLORS["PALADIN"],
+	["MAGE"] = RAID_CLASS_COLORS["MAGE"],
+	["PRIEST"] = RAID_CLASS_COLORS["PRIEST"],
+	["SHAMAN"] = RAID_CLASS_COLORS["SHAMAN"],
+	["WARLOCK"] = RAID_CLASS_COLORS["WARLOCK"],
+	["DRUID"] = RAID_CLASS_COLORS["DRUID"],
+	["ROGUE"] = RAID_CLASS_COLORS["ROGUE"],
+}
+
 Config.const = {}
 Config.const.PAGE_DESC = PAGE_DESC
 Config.const.INDICATOR_NAMES = INDICATOR_NAMES
@@ -60,6 +72,7 @@ Config.const.INDICATOR_DESC = INDICATOR_DESC
 Config.const.TAG_GROUPS = TAG_GROUPS
 Config.const.pointPositions = pointPositions
 Config.const.positionList = positionList
+Config.const.CLASSIC_RAID_CLASS_COLORS = CLASSIC_RAID_CLASS_COLORS
 
 local unitOrder = {}
 for order, unit in pairs(ShadowUF.unitList) do unitOrder[unit] = order end
@@ -379,14 +392,14 @@ Config.getVariable = getVariable
 Config.hideRestrictedOption = hideRestrictedOption
 Config.hideBasicOption = hideBasicOption
 -- Private methods
-Config.private.getPageDescription = getPageDescription
-Config.private.setColor = setColor
-Config.private.getColor = getColor
-Config.private.writeTable = writeTable
-Config.private.getTagName = getTagName
-Config.private.getTagHelp = getTagHelp
-Config.private.mergeTables = mergeTables
-Config.private.setDirectUnit = setDirectUnit
+Config.getPageDescription = getPageDescription
+Config.setColor = setColor
+Config.getColor = getColor
+Config.writeTable = writeTable
+Config.getTagName = getTagName
+Config.getTagHelp = getTagHelp
+Config.mergeTables = mergeTables
+Config.setDirectUnit = setDirectUnit
 
 Config.private.quickIDMap = {}
 
