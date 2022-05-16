@@ -1,8 +1,7 @@
 local L = ShadowUF.L
 local Config = ShadowUF.Config
-local _Config = ShadowUF.Config.private
 
-function _Config:loadHideOptions()
+function Config:loadHideOptions()
 	Config.hideTable = {
 		order = function(info) return info[#(info)] == "buffs" and 1 or 2 end,
 		type = "toggle",

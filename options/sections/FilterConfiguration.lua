@@ -1,8 +1,7 @@
 local L = ShadowUF.L
 local Config = ShadowUF.Config
-local _Config = ShadowUF.Config.private
 
-function _Config:loadFilterOptions()
+function Config:loadFilterOptions()
 	local hasWhitelist, hasBlacklist, hasOverridelist, rebuildFilters
 	local filterMap, spellMap = {}, {}
 	local filterOptions

@@ -1,6 +1,5 @@
 local L = ShadowUF.L
 local Config = ShadowUF.Config
-local _Config = ShadowUF.Config.private
 
 local unitCategories = {
 	player = {"player", "pet"},
@@ -28,7 +27,7 @@ local function getModuleOrder(info)
 	return key == "healthBar" and 1 or key == "powerBar" and 2 or key == "castBar" and 3 or 4
 end
 
-function _Config:loadUnitOptions()
+function Config:loadUnitOptions()
 	local enableUnitsOptions, unitsOptions
 
 	Config.AceDialog = Config.AceDialog or LibStub("AceConfigDialog-3.0")
@@ -130,19 +129,19 @@ function _Config:loadUnitOptions()
 		-- Load tag list
 		Config.advanceTextTable = {
 			order = 1,
-			name = function(info) return Config.getVariable(info[2], "text", Config.private.quickIDMap[info[#(info)]], "name") end,
+			name = function(info) return Config.getVariable(info[2], "text", Config.quickIDMap[info[#(info)]], "name") end,
 			type = "group",
 			inline = true,
 			hidden = function(info)
-				if( not Config.getVariable(info[2], "text", nil, Config.private.quickIDMap[info[#(info)]]) ) then return true end
-				return string.sub(Config.getVariable(info[2], "text", Config.private.quickIDMap[info[#(info)]], "anchorTo"), 2) ~= info[#(info) - 1]
+				if( not Config.getVariable(info[2], "text", nil, Config.quickIDMap[info[#(info)]]) ) then return true end
+				return string.sub(Config.getVariable(info[2], "text", Config.quickIDMap[info[#(info)]], "anchorTo"), 2) ~= info[#(info) - 1]
 			end,
 			set = function(info, value)
-				info.arg = string.format("text.%s.%s", Config.private.quickIDMap[info[#(info) - 1]], info[#(info)])
+				info.arg = string.format("text.%s.%s", Config.quickIDMap[info[#(info) - 1]], info[#(info)])
 				Config.setUnit(info, value)
 			end,
 			get = function(info)
-				info.arg = string.format("text.%s.%s", Config.private.quickIDMap[info[#(info) - 1]], info[#(info)])
+				info.arg = string.format("text.%s.%s", Config.quickIDMap[info[#(info) - 1]], info[#(info)])
 				return Config.getUnit(info)
 			end,
 			args = {
@@ -167,7 +166,7 @@ function _Config:loadUnitOptions()
 					type = "range",
 					min = 0, max = 10, step = 0.1,
 					hidden = function(info)
-						return Config.hideAdvancedOption(info) or Config.getVariable(info[2], "text", Config.private.quickIDMap[info[#(info) - 1]], "block")
+						return Config.hideAdvancedOption(info) or Config.getVariable(info[2], "text", Config.quickIDMap[info[#(info) - 1]], "block")
 					end,
 				},
 				size = {
@@ -184,7 +183,7 @@ function _Config:loadUnitOptions()
 					name = "",
 					width = "full",
 					hidden = function(info)
-						return Config.hideAdvancedOption(info) or not Config.getVariable(info[2], "text", Config.private.quickIDMap[info[#(info) - 1]], "block")
+						return Config.hideAdvancedOption(info) or not Config.getVariable(info[2], "text", Config.quickIDMap[info[#(info) - 1]], "block")
 					end
 				},
 				x = {
@@ -430,7 +429,7 @@ function _Config:loadUnitOptions()
 				tagWizard[parent].args[tostring(id)] = Config.tagTextTable
 				tagWizard[parent].args[tostring(id) .. ":adv"] = Config.advanceTextTable
 
-				Config.private.quickIDMap[tostring(id) .. ":adv"] = id
+				Config.quickIDMap[tostring(id) .. ":adv"] = id
 			end
 		end
 	end
@@ -1121,7 +1120,7 @@ function _Config:loadUnitOptions()
 								name = L["On aggro"],
 								desc = L["Highlight units that have aggro on any mob."],
 								arg = "highlight.aggro",
-								hidden = function(info) return ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]] or info[2] == "maintank" end,
+								hidden = function(info) return ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]] end,
 							},
 							debuff = {
 								order = 6,

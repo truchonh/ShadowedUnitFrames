@@ -1,8 +1,7 @@
 local L = ShadowUF.L
 local Config = ShadowUF.Config
-local _Config = ShadowUF.Config.private
 
-function _Config:loadVisibilityOptions()
+function Config:loadVisibilityOptions()
 	-- As zone units are only enabled in a certain zone... it's pointless to provide visibility options for them
 	local unitBlacklist = {}
 	for unit in pairs(ShadowUF.Units.zoneUnits) do unitBlacklist[unit] = true end

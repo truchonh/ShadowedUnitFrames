@@ -1,9 +1,8 @@
 local L = ShadowUF.L
 local Config = ShadowUF.Config
-local _Config = ShadowUF.Config.private
 local playerClass = select(2, UnitClass("player"))
 
-function _Config:loadGeneralOptions()
+function Config:loadGeneralOptions()
 	Config.SML = Config.SML or LibStub:GetLibrary("LibSharedMedia-3.0")
 
 	local generalOptions = {}
@@ -666,6 +665,20 @@ function _Config:loadGeneralOptions()
 								desc = L["Bar color to use to show how much healing someone is about to receive."],
 								arg = "healthColors.inc",
 							},
+							ownInc = {
+								order = 9,
+								type = "color",
+								name = "Own incoming heal",
+								desc = L["Bar color to use to show how much healing someone is about to receive."],
+								arg = "healthColors.ownInc",
+							},
+							hotInc = {
+								order = 10,
+								type = "color",
+								name = "Incoming HoT heal",
+								desc = L["Bar color to use to show how much healing someone is about to receive."],
+								arg = "healthColors.hotInc",
+							},
 							enemyUnattack = {
 								order = 11,
 								type = "color",
@@ -957,7 +970,7 @@ function _Config:loadGeneralOptions()
 									Config.tagWizard[parent].args[id] = Config.tagTextTable
 									Config.tagWizard[parent].args[id .. ":adv"] = Config.advanceTextTable
 
-									_Config.quickIDMap[id .. ":adv"] = #(ShadowUF.db.profile.units.player.text)
+									Config.quickIDMap[id .. ":adv"] = #(ShadowUF.db.profile.units.player.text)
 
 									-- Reset
 									textData.name = nil

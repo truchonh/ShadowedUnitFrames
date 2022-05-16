@@ -3,7 +3,6 @@ local registered, options
 local playerClass = select(2, UnitClass("player"))
 local L = ShadowUF.L
 
-Config.private = {}
 Config.modifyUnits = {}
 Config.globalConfig = {}
 
@@ -318,7 +317,7 @@ local function hideRestrictedOption(info)
 	local key = info[#(info)]
 	if( ShadowUF.modules[key] and ShadowUF.modules[key].moduleClass and ShadowUF.modules[key].moduleClass ~= playerClass ) then
 		return true
-	elseif( ( key == "incHeal" and not ShadowUF.modules.incHeal ) or ( key == "incAbsorb" and not ShadowUF.modules.incAbsorb ) or ( key == "healAbsorb" and not ShadowUF.modules.healAbsorb ) )  then
+	elseif( key == "incHeal" and not ShadowUF.modules.incHeal )  then
 		return true
 	-- Non-standard units do not support color by aggro or incoming heal
 	elseif( key == "colorAggro" or key == "colorDispel" or key == "aggro" ) then
@@ -391,7 +390,6 @@ Config.getUnit = getUnit
 Config.getVariable = getVariable
 Config.hideRestrictedOption = hideRestrictedOption
 Config.hideBasicOption = hideBasicOption
--- Private methods
 Config.getPageDescription = getPageDescription
 Config.setColor = setColor
 Config.getColor = getColor
@@ -401,24 +399,24 @@ Config.getTagHelp = getTagHelp
 Config.mergeTables = mergeTables
 Config.setDirectUnit = setDirectUnit
 
-Config.private.quickIDMap = {}
+Config.quickIDMap = {}
 
 local function loadOptions()
-	local enableUnitsOptions, unitsOptions = Config.private:loadUnitOptions()
+	local enableUnitsOptions, unitsOptions = Config:loadUnitOptions()
 
 	options = {
 		type = "group",
 		name = "Shadowed UF",
 		args = {
-			hideBlizzard = Config.private:loadHideOptions(),
-			filter = Config.private:loadFilterOptions(),
-			visibility = Config.private:loadVisibilityOptions(),
-			general = Config.private:loadGeneralOptions(),
-			tags = Config.private:loadTagOptions(),
-			auraIndicators = Config.private:loadAuraIndicatorsOptions(),
+			general = Config:loadGeneralOptions(),
 			profile = LibStub("AceDBOptions-3.0"):GetOptionsTable(ShadowUF.db, true),
 			enableUnits = enableUnitsOptions,
-			units = unitsOptions
+			units = unitsOptions,
+			filter = Config:loadFilterOptions(),
+			auraIndicators = Config:loadAuraIndicatorsOptions(),
+			hideBlizzard = Config:loadHideOptions(),
+			visibility = Config:loadVisibilityOptions(),
+			tags = Config:loadTagOptions(),
 		}
 	}
 

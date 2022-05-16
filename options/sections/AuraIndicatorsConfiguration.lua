@@ -1,8 +1,7 @@
 local L = ShadowUF.L
 local Config = ShadowUF.Config
-local _Config = ShadowUF.Config.private
 
-function _Config:loadAuraIndicatorsOptions()
+function Config:loadAuraIndicatorsOptions()
 	local auraIndicatorsOptions
 
 	local Indicators = ShadowUF.modules.auraIndicators
