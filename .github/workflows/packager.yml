@@ -43,7 +43,7 @@ jobs:
 #          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive packaged addon
-          uses: actions/upload-artifact@v3
-          with:
-            name: bcc-latest
-            path: .release/bcc.zip
+        uses: actions/upload-artifact@v3
+        with:
+          name: bcc-latest
+          path: .release/bcc.zip
