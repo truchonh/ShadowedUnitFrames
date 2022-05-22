@@ -1,4 +1,4 @@
-std = "lua52"
+std = "lua51"
 max_line_length = false
 exclude_files = {
 	"libs/",
@@ -25,6 +25,7 @@ globals = {
 	"ClickCastFrames",
 	"CONFIGMODE_CALLBACKS",
 	"SlashCmdList",
+	"bit",
 }
 
 read_globals = {
