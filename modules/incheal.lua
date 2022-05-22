@@ -43,34 +43,7 @@ function IncHeal:OnEnable(frame)
 			hotBar = hotBar,
 		}
 
-		frame.healthBar:SetScript("OnSizeChanged", function(self)
-			local frame = self:GetParent()
-			local otherBeforeBar, myBar, otherAfterBar, hotBar = frame.incHeal.otherBeforeBar, frame.incHeal.myBar, frame.incHeal.otherAfterBar, frame.incHeal.hotBar,
-			otherBeforeBar:ClearAllPoints()
-			myBar:ClearAllPoints()
-			otherAfterBar:ClearAllPoints()
-			hotBar:ClearAllPoints()
-
-			otherBeforeBar:SetPoint("TOP")
-			otherBeforeBar:SetPoint("BOTTOM")
-			otherBeforeBar:SetPoint("LEFT", self:GetStatusBarTexture(), "RIGHT")
-			otherBeforeBar:SetWidth(self:GetWidth())
-
-			myBar:SetPoint("TOP")
-			myBar:SetPoint("BOTTOM")
-			myBar:SetPoint("LEFT", otherBeforeBar:GetStatusBarTexture(), "RIGHT")
-			myBar:SetWidth(self:GetWidth())
-
-			otherAfterBar:SetPoint("TOP")
-			otherAfterBar:SetPoint("BOTTOM")
-			otherAfterBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
-			otherAfterBar:SetWidth(self:GetWidth())
-
-			hotBar:SetPoint("TOP")
-			hotBar:SetPoint("BOTTOM")
-			hotBar:SetPoint("LEFT", otherAfterBar:GetStatusBarTexture(), "RIGHT")
-			hotBar:SetWidth(self:GetWidth())
-		end)
+		frame.healthBar:SetScript("OnSizeChanged", IncHeal.OnSizeChanged)
 	end
 
 	frame:RegisterUnitEvent("UNIT_MAXHEALTH", self, "UpdateFrame")
@@ -103,6 +76,35 @@ function IncHeal:OnEnable(frame)
 			frame.incHeal.hotBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 	end
+end
+
+function IncHeal:OnSizeChanged(healthBar)
+	local frame = healthBar:GetParent()
+	local otherBeforeBar, myBar, otherAfterBar, hotBar = frame.incHeal.otherBeforeBar, frame.incHeal.myBar, frame.incHeal.otherAfterBar, frame.incHeal.hotBar,
+	otherBeforeBar:ClearAllPoints()
+	myBar:ClearAllPoints()
+	otherAfterBar:ClearAllPoints()
+	hotBar:ClearAllPoints()
+
+	otherBeforeBar:SetPoint("TOP")
+	otherBeforeBar:SetPoint("BOTTOM")
+	otherBeforeBar:SetPoint("LEFT", healthBar:GetStatusBarTexture(), "RIGHT")
+	otherBeforeBar:SetWidth(healthBar:GetWidth())
+
+	myBar:SetPoint("TOP")
+	myBar:SetPoint("BOTTOM")
+	myBar:SetPoint("LEFT", otherBeforeBar:GetStatusBarTexture(), "RIGHT")
+	myBar:SetWidth(healthBar:GetWidth())
+
+	otherAfterBar:SetPoint("TOP")
+	otherAfterBar:SetPoint("BOTTOM")
+	otherAfterBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
+	otherAfterBar:SetWidth(healthBar:GetWidth())
+
+	hotBar:SetPoint("TOP")
+	hotBar:SetPoint("BOTTOM")
+	hotBar:SetPoint("LEFT", otherAfterBar:GetStatusBarTexture(), "RIGHT")
+	hotBar:SetWidth(healthBar:GetWidth())
 end
 
 function IncHeal:OnDisable(frame)
@@ -222,10 +224,10 @@ local function updateHealthBar(frame, interrupted)
 
 	myHeal = HealComm:GetHealAmount(guid, HealComm.DIRECT_HEALS, timeFrame, myGUID) or 0
 	-- We can only scout up to 2 direct heals that would land before ours but thats good enough for most cases
-	local healTime, healFrom, healAmount = HealComm:GetNextHealAmount(guid, HealComm.DIRECT_HEALS, timeFrame)
+	local _, healFrom, healAmount = HealComm:GetNextHealAmount(guid, HealComm.DIRECT_HEALS, timeFrame)
 	if healFrom and healFrom ~= myGUID and myHeal > 0 then
 		preHeal = healAmount
-		healTime, healFrom, healAmount = HealComm:GetNextHealAmount(guid, HealComm.DIRECT_HEALS, timeFrame, healFrom)
+		_, healFrom, healAmount = HealComm:GetNextHealAmount(guid, HealComm.DIRECT_HEALS, timeFrame, healFrom)
 		if healFrom and healFrom ~= myGUID then
 			preHeal = preHeal + healAmount
 		end
