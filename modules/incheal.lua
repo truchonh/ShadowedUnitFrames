@@ -80,7 +80,7 @@ end
 
 function IncHeal:OnSizeChanged(healthBar)
 	local frame = healthBar:GetParent()
-	local otherBeforeBar, myBar, otherAfterBar, hotBar = frame.incHeal.otherBeforeBar, frame.incHeal.myBar, frame.incHeal.otherAfterBar, frame.incHeal.hotBar,
+	local otherBeforeBar, myBar, otherAfterBar, hotBar = frame.incHeal.otherBeforeBar, frame.incHeal.myBar, frame.incHeal.otherAfterBar, frame.incHeal.hotBar
 	otherBeforeBar:ClearAllPoints()
 	myBar:ClearAllPoints()
 	otherAfterBar:ClearAllPoints()
