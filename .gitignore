@@ -1,5 +1,7 @@
 suf.tmproj
 .DS_Store
-libs/
+libs/t
 luacheck.exe
 .idea/
+/.release/*
+!/.release/release.sh
