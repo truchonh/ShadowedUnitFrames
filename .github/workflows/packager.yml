@@ -6,7 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ classic ]
+    branches: [ classic, TBC ]
     tags:
      - '**classic**'
 
@@ -30,14 +30,20 @@ jobs:
           luarocks install --local luacheck
           /home/runner/.luarocks/bin/luacheck . --no-color -q
 
-      - name: Create Classic Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g classic
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Create Classic Package
+#        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g classic
+#        env:
+#          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+#          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create BCC Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g bcc
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -n bcc
+#        env:
+#          CF_API_KEY: ${{ secrets.CF_API_KEY }}
+#          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Archive packaged addon
+          uses: actions/upload-artifact@v3
+          with:
+            name: bcc-latest
+            path: .release/bcc.zip

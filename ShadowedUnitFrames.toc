@@ -68,4 +68,11 @@ modules\empty.lua
 modules\druid.lua
 #@do-not-package@
 options\config.lua
+options\sections\AuraIndicatorsConfiguration.lua
+options\sections\FilterConfiguration.lua
+options\sections\GeneralConfiguration.lua
+options\sections\HideConfiguration.lua
+options\sections\TagConfiguration.lua
+options\sections\VisibilityConfiguration.lua
+options\sections\UnitConfiguration.lua
 #@end-do-not-package@
