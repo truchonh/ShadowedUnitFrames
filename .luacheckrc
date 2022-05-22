@@ -1,4 +1,4 @@
-std = "lua53"
+std = "lua52"
 max_line_length = false
 exclude_files = {
 	"libs/",
