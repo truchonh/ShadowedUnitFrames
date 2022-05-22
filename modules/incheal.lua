@@ -11,6 +11,35 @@ local myGUID = UnitGUID("player")
 -- How far ahead to show heals at most
 local INCOMING_SECONDS = 3
 
+local function OnHealthBarSizeChanged(healthBar)
+	local frame = healthBar:GetParent()
+	local otherBeforeBar, myBar, otherAfterBar, hotBar = frame.incHeal.otherBeforeBar, frame.incHeal.myBar, frame.incHeal.otherAfterBar, frame.incHeal.hotBar
+	otherBeforeBar:ClearAllPoints()
+	myBar:ClearAllPoints()
+	otherAfterBar:ClearAllPoints()
+	hotBar:ClearAllPoints()
+
+	otherBeforeBar:SetPoint("TOP")
+	otherBeforeBar:SetPoint("BOTTOM")
+	otherBeforeBar:SetPoint("LEFT", healthBar:GetStatusBarTexture(), "RIGHT")
+	otherBeforeBar:SetWidth(healthBar:GetWidth())
+
+	myBar:SetPoint("TOP")
+	myBar:SetPoint("BOTTOM")
+	myBar:SetPoint("LEFT", otherBeforeBar:GetStatusBarTexture(), "RIGHT")
+	myBar:SetWidth(healthBar:GetWidth())
+
+	otherAfterBar:SetPoint("TOP")
+	otherAfterBar:SetPoint("BOTTOM")
+	otherAfterBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
+	otherAfterBar:SetWidth(healthBar:GetWidth())
+
+	hotBar:SetPoint("TOP")
+	hotBar:SetPoint("BOTTOM")
+	hotBar:SetPoint("LEFT", otherAfterBar:GetStatusBarTexture(), "RIGHT")
+	hotBar:SetWidth(healthBar:GetWidth())
+end
+
 function IncHeal:OnEnable(frame)
 	if ( not frame.healthBar ) then
 		return
@@ -43,7 +72,7 @@ function IncHeal:OnEnable(frame)
 			hotBar = hotBar,
 		}
 
-		frame.healthBar:SetScript("OnSizeChanged", IncHeal.OnSizeChanged)
+		frame.healthBar:SetScript("OnSizeChanged", OnHealthBarSizeChanged)
 	end
 
 	frame:RegisterUnitEvent("UNIT_MAXHEALTH", self, "UpdateFrame")
@@ -76,35 +105,6 @@ function IncHeal:OnEnable(frame)
 			frame.incHeal.hotBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]])
 		end
 	end
-end
-
-function IncHeal:OnSizeChanged(healthBar)
-	local frame = healthBar:GetParent()
-	local otherBeforeBar, myBar, otherAfterBar, hotBar = frame.incHeal.otherBeforeBar, frame.incHeal.myBar, frame.incHeal.otherAfterBar, frame.incHeal.hotBar
-	otherBeforeBar:ClearAllPoints()
-	myBar:ClearAllPoints()
-	otherAfterBar:ClearAllPoints()
-	hotBar:ClearAllPoints()
-
-	otherBeforeBar:SetPoint("TOP")
-	otherBeforeBar:SetPoint("BOTTOM")
-	otherBeforeBar:SetPoint("LEFT", healthBar:GetStatusBarTexture(), "RIGHT")
-	otherBeforeBar:SetWidth(healthBar:GetWidth())
-
-	myBar:SetPoint("TOP")
-	myBar:SetPoint("BOTTOM")
-	myBar:SetPoint("LEFT", otherBeforeBar:GetStatusBarTexture(), "RIGHT")
-	myBar:SetWidth(healthBar:GetWidth())
-
-	otherAfterBar:SetPoint("TOP")
-	otherAfterBar:SetPoint("BOTTOM")
-	otherAfterBar:SetPoint("LEFT", myBar:GetStatusBarTexture(), "RIGHT")
-	otherAfterBar:SetWidth(healthBar:GetWidth())
-
-	hotBar:SetPoint("TOP")
-	hotBar:SetPoint("BOTTOM")
-	hotBar:SetPoint("LEFT", otherAfterBar:GetStatusBarTexture(), "RIGHT")
-	hotBar:SetWidth(healthBar:GetWidth())
 end
 
 function IncHeal:OnDisable(frame)
