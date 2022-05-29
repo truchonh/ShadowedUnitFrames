@@ -37,7 +37,7 @@ jobs:
 #          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create BCC Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g bcc
+        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -z -g bcc
 #        env:
 #          CF_API_KEY: ${{ secrets.CF_API_KEY }}
 #          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
