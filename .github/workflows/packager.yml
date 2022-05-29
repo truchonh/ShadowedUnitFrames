@@ -45,5 +45,7 @@ jobs:
       - name: Archive packaged addon
         uses: actions/upload-artifact@v3
         with:
-          name: bcc-latest
-          path: .release/ShadowedUnitFrames
+          name: ShadowedUnitFrames
+          path: |
+              .release/ShadowedUnitFrames
+              .release/ShadowedUF_Options
