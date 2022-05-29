@@ -75,7 +75,7 @@ function Highlight:OnEnable(frame)
 	frame.highlight.right:SetWidth(ShadowUF.db.profile.units[frame.unitType].highlight.size)
 
 
-	if( ShadowUF.db.profile.units[frame.unitType].highlight.aggro ) then
+	if( ShadowUF.db.profile.units[frame.unitType].highlight.aggro or ShadowUF.db.profile.units[frame.unitType].highlight.highThreat ) then
 		frame:RegisterUnitEvent("UNIT_THREAT_SITUATION_UPDATE", self, "UpdateThreat")
 		frame:RegisterUpdateFunc(self, "UpdateThreat")
 	end
@@ -115,6 +115,7 @@ function Highlight:OnDisable(frame)
 	frame:UnregisterAll(self)
 
 	frame.highlight.hasDebuff = nil
+	frame.highlight.isTanking = nil
 	frame.highlight.hasThreat = nil
 	frame.highlight.hasAttention = nil
 	frame.highlight.hasMouseover = nil
@@ -134,8 +135,10 @@ function Highlight:Update(frame)
 	local color
 	if( frame.highlight.hasDebuff ) then
 		color = DebuffTypeColor[frame.highlight.hasDebuff] or DebuffTypeColor[""]
-	elseif( frame.highlight.hasThreat ) then
+	elseif( frame.highlight.isTanking ) then
 		color = ShadowUF.db.profile.healthColors.hostile
+	elseif( frame.highlight.hasThreat ) then
+		color = ShadowUF.db.profile.healthColors.neutral
 	elseif( frame.highlight.hasAttention ) then
 		color = goldColor
 	elseif( frame.highlight.hasMouseover ) then
@@ -158,7 +161,12 @@ function Highlight:Update(frame)
 end
 
 function Highlight:UpdateThreat(frame)
-	frame.highlight.hasThreat = UnitThreatSituation(frame.unit) == 3 or nil
+	local highlightConfig = ShadowUF.db.profile.units[frame.unitType].highlight
+	if( frame.unit:find("maintank", 1, true) ~= 1 ) then
+		local threatSituation = UnitThreatSituation(frame.unit)
+		frame.highlight.isTanking = highlightConfig.aggro and (threatSituation == 2 or threatSituation == 3) or nil
+		frame.highlight.hasThreat = highlightConfig.highThreat and threatSituation == 1 or nil
+	end
 	self:Update(frame)
 end
 

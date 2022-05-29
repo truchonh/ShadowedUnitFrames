@@ -1131,6 +1131,14 @@ function Config:loadUnitOptions()
 								arg = "highlight.attention",
 								hidden = function(info) return info[2] == "target" or info[2] == "focus" end,
 							},
+							highThreat = {
+								order = 4.5,
+								type = "toggle",
+								name = "On high threat",
+								desc = "Highlight units that have high threat on any mob.",
+								arg = "highlight.highThreat",
+								hidden = function(info) return ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]] end,
+							},
 							aggro = {
 								order = 5,
 								type = "toggle",
