@@ -244,14 +244,24 @@ local function cancelAura(self, mouse)
 end
 
 local function updateButton(id, group, config)
+	local unitConfig = ShadowUF.db.profile.units[group.parent.unitType]
 	local button = group.buttons[id]
-	if( not button ) then
-		group.buttons[id] = CreateFrame("Button", nil, group)
+	if(
+		not button
+		or (button:IsObjectType("Frame") and not unitConfig.clickThroughAuras)
+		or (button:IsObjectType("Button") and unitConfig.clickThroughAuras)
+	) then
+		if( unitConfig.clickThroughAuras ) then
+			group.buttons[id] = CreateFrame("Frame", nil, group)
+			button = group.buttons[id]
+		else
+			group.buttons[id] = CreateFrame("Button", nil, group)
+			button = group.buttons[id]
 
-		button = group.buttons[id]
-		button:SetScript("OnEnter", showTooltip)
-		button:SetScript("OnLeave", hideTooltip)
-		button:RegisterForClicks("RightButtonUp")
+			button:SetScript("OnEnter", showTooltip)
+			button:SetScript("OnLeave", hideTooltip)
+			button:RegisterForClicks("RightButtonUp")
+		end
 
 		button.cooldown = CreateFrame("Cooldown", group.parent:GetName() .. "Aura" .. group.type .. id .. "Cooldown", button, "CooldownFrameTemplate")
 		button.cooldown:SetAllPoints(button)
@@ -300,7 +310,9 @@ local function updateButton(id, group, config)
 	button.border:SetWidth(config.size + 1)
 	button.stack:SetFont("Interface\\AddOns\\ShadowedUnitFrames\\media\\fonts\\Myriad Condensed Web.ttf", math.floor((config.size * 0.60) + 0.5), "OUTLINE")
 
-	button:SetScript("OnClick", cancelAura)
+	if( not unitConfig.clickThroughAuras ) then
+		button:SetScript("OnClick", cancelAura)
+	end
 	button.parent = group.parent
 	button:ClearAllPoints()
 	button:Hide()

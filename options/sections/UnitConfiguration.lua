@@ -989,6 +989,23 @@ function Config:loadUnitOptions()
 				set = Config.setUnit,
 				get = Config.getUnit,
 				args = {
+					auras = {
+						order = 1,
+						type = "group",
+						inline = true,
+						hidden = false,
+						name = "Auras",
+						args = {
+							clickThroughAuras = {
+								order = 1,
+								type = "toggle",
+								name = "Click through auras",
+								desc = "Prevent aura icons from capturing mouse clicks.",
+								arg = "clickThroughAuras",
+								width = "double",
+							},
+						},
+					},
 					portrait = {
 						order = 2,
 						type = "group",
