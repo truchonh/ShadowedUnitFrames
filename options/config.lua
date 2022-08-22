@@ -2756,6 +2756,14 @@ local function loadUnitOptions()
 								arg = "highlight.attention",
 								hidden = function(info) return info[2] == "target" or info[2] == "focus" end,
 							},
+							swiftmendableTarget = {
+								order = 4.5,
+								type = "toggle",
+								name = "Valid swiftmend target",
+								desc = "Highlight units that are a valid target for swiftmend.",
+								arg = "highlight.swiftmendableTarget",
+								hidden = function(info) return playerClass ~= "DRUID" and (info[2] == "raid" or ShadowUF.fakeUnits[info[2]]) end,
+							},
 							aggro = {
 								order = 5,
 								type = "toggle",

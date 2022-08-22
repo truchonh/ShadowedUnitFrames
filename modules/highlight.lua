@@ -1,5 +1,6 @@
 local Highlight = {}
 local goldColor, mouseColor = {r = 0.75, g = 0.75, b = 0.35}, {r = 0.75, g = 0.75, b = 0.50}
+local swiftmendableHightlight = {r = 0.02, g = 0.65, b = 0.95}
 local rareColor, eliteColor = {r = 0, g = 0.63, b = 1}, {r = 1, g = 0.81, b = 0}
 
 local canCure = ShadowUF.Units.canCure
@@ -86,7 +87,7 @@ function Highlight:OnEnable(frame)
 		frame:RegisterUpdateFunc(self, "UpdateAttention")
 	end
 
-	if( ShadowUF.db.profile.units[frame.unitType].highlight.debuff ) then
+	if( ShadowUF.db.profile.units[frame.unitType].highlight.debuff or ShadowUF.db.profile.units[frame.unitType].highlight.swiftmendableTarget ) then
 		frame:RegisterUnitEvent("UNIT_AURA", self, "UpdateAura")
 		frame:RegisterUpdateFunc(self, "UpdateAura")
 	end
@@ -141,6 +142,8 @@ function Highlight:Update(frame)
 		color = goldColor
 	elseif( frame.highlight.hasMouseover ) then
 		color = mouseColor
+	elseif( frame.highlight.swiftmendableTarget ) then
+		color = swiftmendableHightlight
 	elseif( ShadowUF.db.profile.units[frame.unitType].highlight.rareMob and ( frame.highlight.hasClassification == "rareelite" or frame.highlight.hasClassification == "rare" ) ) then
 		color = rareColor
 	elseif( ShadowUF.db.profile.units[frame.unitType].highlight.eliteMob and frame.highlight.hasClassification == "elite" ) then
@@ -148,10 +151,19 @@ function Highlight:Update(frame)
 	end
 
 	if( color ) then
-		frame.highlight.top:SetVertexColor(color.r, color.g, color.b, ShadowUF.db.profile.units[frame.unitType].highlight.alpha)
-		frame.highlight.left:SetVertexColor(color.r, color.g, color.b, ShadowUF.db.profile.units[frame.unitType].highlight.alpha)
-		frame.highlight.bottom:SetVertexColor(color.r, color.g, color.b, ShadowUF.db.profile.units[frame.unitType].highlight.alpha)
-		frame.highlight.right:SetVertexColor(color.r, color.g, color.b, ShadowUF.db.profile.units[frame.unitType].highlight.alpha)
+		local borderHeight = color == swiftmendableHightlight and (ShadowUF.db.profile.units[frame.unitType].highlight.size * 2) or ShadowUF.db.profile.units[frame.unitType].highlight.size
+		local alpha = color == swiftmendableHightlight and (ShadowUF.db.profile.units[frame.unitType].highlight.alpha * 0.5) or ShadowUF.db.profile.units[frame.unitType].highlight.alpha
+
+		frame.highlight.top:SetVertexColor(color.r, color.g, color.b, alpha)
+		frame.highlight.left:SetVertexColor(color.r, color.g, color.b, alpha)
+		frame.highlight.bottom:SetVertexColor(color.r, color.g, color.b, alpha)
+		frame.highlight.right:SetVertexColor(color.r, color.g, color.b, alpha)
+
+		frame.highlight.top:SetHeight(borderHeight)
+		frame.highlight.bottom:SetHeight(borderHeight)
+		frame.highlight.left:SetWidth(borderHeight)
+		frame.highlight.right:SetWidth(borderHeight)
+
 		frame.highlight:Show()
 	else
 		frame.highlight:Hide()
@@ -174,8 +186,11 @@ function Highlight:UpdateClassification(frame)
 end
 
 function Highlight:UpdateAura(frame)
+	local highlightConfig = ShadowUF.db.profile.units[frame.unitType].highlight
 	frame.highlight.hasDebuff = nil
+	frame.highlight.swiftmendableTarget = nil
 	if( UnitIsFriend(frame.unit, "player") ) then
+		-- check for debuffs
 		local id = 0
 		while( true ) do
 			id = id + 1
@@ -188,6 +203,27 @@ function Highlight:UpdateAura(frame)
 				break
 			end
 		end
+
+		-- check for swiftmendable HoT
+		if ( highlightConfig.swiftmendableTarget ) then
+			id = 0
+			while( true ) do
+				id = id + 1
+				local name = UnitBuff(frame.unit, id, "PLAYER|HELPFUL")
+				if( not name ) then break end
+
+				if(
+					name == "Rejuvenation" or
+					name == "Regrowth" or
+					name == "Wild Growth" or
+					name == "Renewing Bloom"
+				) then
+					frame.highlight.swiftmendableTarget = true
+					break
+				end
+			end
+		end
+
 	end
 
 	self:Update(frame)
