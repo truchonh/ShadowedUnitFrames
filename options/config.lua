@@ -2762,7 +2762,7 @@ local function loadUnitOptions()
 								name = "Valid swiftmend target",
 								desc = "Highlight units that are a valid target for swiftmend.",
 								arg = "highlight.swiftmendableTarget",
-								hidden = function(info) return playerClass ~= "DRUID" and (info[2] == "raid" or ShadowUF.fakeUnits[info[2]]) end,
+								hidden = function(info) return playerClass ~= "DRUID" and (ShadowUF.Units.zoneUnits[info[2]] or info[2] == "battlegroundpet" or info[2] == "arenapet" or ShadowUF.fakeUnits[info[2]]) end,
 							},
 							aggro = {
 								order = 5,
