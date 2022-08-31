@@ -3,7 +3,7 @@ local L = ShadowUF.L
 local Movers = {}
 local originalEnvs = {}
 local unitConfig = {}
-local attributeBlacklist = {["showplayer"] = true, ["showraid"] = true, ["showparty"] = true, ["showsolo"] = true, ["initial-unitwatch"] = true}
+local attributeBlacklist = {["alwaysDisplayPartyFrames"] = true, ["showplayer"] = true, ["showraid"] = true, ["showparty"] = true, ["showsolo"] = true, ["initial-unitwatch"] = true}
 local playerClass = select(2, UnitClass("player"))
 local noop = function() end
 local OnDragStop, OnDragStart, configEnv

@@ -3667,6 +3667,14 @@ local function loadUnitOptions()
 						name = L["Visibility"],
 						hidden = function(info) return info[2] ~= "party" and info[2] ~= "raid" end,
 						args = {
+							alwaysDisplayPartyFrames = {
+								order = 0,
+								type = "toggle",
+								name = "Display party frames when solo",
+								desc = "Always display the party frames when not in a party or raid.",
+								hidden = function(info) return info[2] ~= "party" end,
+								arg = "showSolo",
+							},
 							showPlayer = {
 								order = 0,
 								type = "toggle",

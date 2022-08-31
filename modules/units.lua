@@ -784,8 +784,9 @@ function Units:CheckGroupVisibility()
 	local raid = headerFrames.raid and not ShadowUF.db.profile.units.raid.frameSplit and headerFrames.raid or headerFrames.raidParent
 	local party = headerFrames.party
 	if( party ) then
-		party:SetAttribute("showParty", ( not ShadowUF.db.profile.units.raid.showParty or not ShadowUF.enabledUnits.raid ) and true or false)
+		party:SetAttribute("showParty", not ( ShadowUF.db.profile.units.raid.showParty and ShadowUF.enabledUnits.raid ))
 		party:SetAttribute("showPlayer", ShadowUF.db.profile.units.party.showPlayer)
+		party:SetAttribute("showSolo", ShadowUF.db.profile.units.party.showSolo)
 	end
 
 	if( raid and party ) then
