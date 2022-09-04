@@ -33,7 +33,10 @@ function Highlight:OnEnable(frame)
 		frame.highlight:SetSize(1, 1)
 
 		frame.highlight.center = frame.highlight:CreateTexture(nil, "OVERLAY")
-		frame.highlight.center:SetAllPoints(frame)
+		frame.highlight.center:SetPoint("TOP", frame, 0, -ShadowUF.db.profile.backdrop.inset)
+		frame.highlight.center:SetPoint("BOTTOM", frame, 0, ShadowUF.db.profile.backdrop.inset)
+		frame.highlight.center:SetPoint("LEFT", frame, ShadowUF.db.profile.backdrop.inset, 0)
+		frame.highlight.center:SetPoint("RIGHT", frame, -ShadowUF.db.profile.backdrop.inset, 0)
 		if(frame.highlight.center:IsObjectType("Texture") and not frame.highlight.center:GetTexture()) then
 			frame.highlight.center:SetTexture([[Interface\FriendsFrame\UI-FriendsFrame-HighlightBar-Blue]])
 			frame.highlight.center:SetBlendMode("ADD")
