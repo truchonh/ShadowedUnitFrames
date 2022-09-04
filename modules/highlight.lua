@@ -32,9 +32,15 @@ function Highlight:OnEnable(frame)
 		frame.highlight:SetAllPoints(frame)
 		frame.highlight:SetSize(1, 1)
 
+		frame.highlight.center = frame.highlight:CreateTexture(nil, "OVERLAY")
+		frame.highlight.center:SetAllPoints(frame)
+		if(frame.highlight.center:IsObjectType("Texture") and not frame.highlight.center:GetTexture()) then
+			frame.highlight.center:SetTexture([[Interface\FriendsFrame\UI-FriendsFrame-HighlightBar-Blue]])
+			frame.highlight.center:SetBlendMode("ADD")
+		end
+
 		frame.highlight.top = frame.highlight:CreateTexture(nil, "OVERLAY")
-		frame.highlight.top:SetBlendMode("ADD")
-		frame.highlight.top:SetTexture("Interface\\AddOns\\ShadowedUnitFrames\\media\\textures\\highlight")
+		frame.highlight.top:SetTexture([[Interface\Buttons\WHITE8X8]])
 		frame.highlight.top:SetPoint("TOPLEFT", frame, ShadowUF.db.profile.backdrop.inset, -ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.top:SetPoint("TOPRIGHT", frame, -ShadowUF.db.profile.backdrop.inset, ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.top:SetHeight(30)
@@ -42,8 +48,7 @@ function Highlight:OnEnable(frame)
 		frame.highlight.top:SetHorizTile(false)
 
 		frame.highlight.left = frame.highlight:CreateTexture(nil, "OVERLAY")
-		frame.highlight.left:SetBlendMode("ADD")
-		frame.highlight.left:SetTexture("Interface\\AddOns\\ShadowedUnitFrames\\media\\textures\\highlight")
+		frame.highlight.left:SetTexture([[Interface\Buttons\WHITE8X8]])
 		frame.highlight.left:SetPoint("TOPLEFT", frame, ShadowUF.db.profile.backdrop.inset, -ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.left:SetPoint("BOTTOMLEFT", frame, -ShadowUF.db.profile.backdrop.inset, ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.left:SetWidth(30)
@@ -51,8 +56,7 @@ function Highlight:OnEnable(frame)
 		frame.highlight.left:SetHorizTile(false)
 
 		frame.highlight.right = frame.highlight:CreateTexture(nil, "OVERLAY")
-		frame.highlight.right:SetBlendMode("ADD")
-		frame.highlight.right:SetTexture("Interface\\AddOns\\ShadowedUnitFrames\\media\\textures\\highlight")
+		frame.highlight.right:SetTexture([[Interface\Buttons\WHITE8X8]])
 		frame.highlight.right:SetPoint("TOPRIGHT", frame, -ShadowUF.db.profile.backdrop.inset, -ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.right:SetPoint("BOTTOMRIGHT", frame, 0, ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.right:SetWidth(30)
@@ -60,8 +64,7 @@ function Highlight:OnEnable(frame)
 		frame.highlight.right:SetHorizTile(false)
 
 		frame.highlight.bottom = frame.highlight:CreateTexture(nil, "OVERLAY")
-		frame.highlight.bottom:SetBlendMode("ADD")
-		frame.highlight.bottom:SetTexture("Interface\\AddOns\\ShadowedUnitFrames\\media\\textures\\highlight")
+		frame.highlight.bottom:SetTexture([[Interface\Buttons\WHITE8X8]])
 		frame.highlight.bottom:SetPoint("BOTTOMLEFT", frame, ShadowUF.db.profile.backdrop.inset, ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.bottom:SetPoint("BOTTOMRIGHT", frame, -ShadowUF.db.profile.backdrop.inset, ShadowUF.db.profile.backdrop.inset)
 		frame.highlight.bottom:SetHeight(30)
@@ -134,8 +137,10 @@ end
 
 function Highlight:Update(frame)
 	local color
+	local hasDebuff = false
 	if( frame.highlight.hasDebuff ) then
 		color = DebuffTypeColor[frame.highlight.hasDebuff] or DebuffTypeColor[""]
+		hasDebuff = true
 	elseif( frame.highlight.hasThreat ) then
 		color = ShadowUF.db.profile.healthColors.hostile
 	elseif( frame.highlight.hasAttention ) then
@@ -150,25 +155,21 @@ function Highlight:Update(frame)
 		color = eliteColor
 	end
 
+	if( hasDebuff ) then
+		frame.highlight.center:SetVertexColor(color.r, color.g, color.b, alpha)
+		frame.highlight.center:Show()
+	else
+		frame.highlight.center:Hide()
+	end
+
 	if( color ) then
-		local borderHeight, alpha
-		if color == swiftmendableHightlight then
-			borderHeight = ShadowUF.db.profile.units[frame.unitType].highlight.size * 3
-			alpha = (ShadowUF.db.profile.units[frame.unitType].highlight.alpha or 1) * 0.5
-		else
-			borderHeight = ShadowUF.db.profile.units[frame.unitType].highlight.size
-			alpha = ShadowUF.db.profile.units[frame.unitType].highlight.alpha
-		end
+		local borderHeight = ShadowUF.db.profile.units[frame.unitType].highlight.size
+		local alpha = ShadowUF.db.profile.units[frame.unitType].highlight.alpha
 
 		frame.highlight.top:SetVertexColor(color.r, color.g, color.b, alpha)
 		frame.highlight.left:SetVertexColor(color.r, color.g, color.b, alpha)
 		frame.highlight.bottom:SetVertexColor(color.r, color.g, color.b, alpha)
 		frame.highlight.right:SetVertexColor(color.r, color.g, color.b, alpha)
-
-		frame.highlight.top:SetHeight(borderHeight)
-		frame.highlight.bottom:SetHeight(borderHeight)
-		frame.highlight.left:SetWidth(borderHeight)
-		frame.highlight.right:SetWidth(borderHeight)
 
 		frame.highlight:Show()
 	else
