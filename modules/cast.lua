@@ -28,19 +28,6 @@ if WoWClassic then
 		end
 	end
 end
-if WoWBC then
-	UnitCastingInfo = function(unit)
-		-- nonInterruptible is missing from the returns
-		local name, text, texture, startTime, endTime, isTradeSkill, castID, spellID = _G.UnitCastingInfo(unit)
-		return name, text, texture, startTime, endTime, isTradeSkill, castID, nil, spellID
-	end
-
-	UnitChannelInfo = function(unit)
-		-- nonInterruptible is missing from the returns
-		local name, text, texture, startTime, endTime, isTradeSkill, spellID = _G.UnitChannelInfo(unit)
-		return name, text, texture, startTime, endTime, isTradeSkill, nil, spellID
-	end
-end
 
 function Cast:OnEnable(frame)
 	if( not frame.castBar ) then
