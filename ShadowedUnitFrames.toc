@@ -1,6 +1,6 @@
-## Interface: 20502
-## Interface-Classic: 11307
-## Interface-BCC: 20502
+## Interface: 30400
+## Interface-Classic: 11403
+## Interface-BCC: 20504
 ## Title: Shadowed Unit Frames
 ## Notes: Moooooooooooooooooo
 ## Author: Shadowed
@@ -8,8 +8,11 @@
 ## SavedVariables: ShadowedUFDB
 ## X-Website: https://www.wowace.com/addons/shadowed-unit-frames/
 #@version-bcc@
-## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, Clique, LibHealComm-4.0
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, Clique
 #@end-version-bcc@
+#@version-wrath@
+## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, Clique
+#@end-version-wrath@
 #@non-version-bcc@
 # ## OptionalDeps: Ace3, LibSharedMedia-3.0, AceGUI-3.0-SharedMediaWidgets, LibSpellRange-1.0, LibClassicDurations, Clique, LibClassicCasterino
 #@end-non-version-bcc@
@@ -22,10 +25,10 @@ libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibSharedMedia-3.0\lib.xml
 libs\AceDB-3.0\AceDB-3.0.xml
 libs\LibSpellRange-1.0\lib.xml
-#@non-version-bcc@
-# libs\LibClassicDurations\LibClassicDurations.xml
-# libs\LibClassicCasterino\LibClassicCasterino.lua
-#@end-non-version-bcc@
+#@version-classic@
+libs\LibClassicDurations\LibClassicDurations.xml
+libs\LibClassicCasterino\LibClassicCasterino.lua
+#@end-version-classic@
 #@end-no-lib-strip@
 
 localization\enUS.lua
