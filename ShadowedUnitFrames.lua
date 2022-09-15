@@ -6,7 +6,7 @@ ShadowUF = select(2, ...)
 
 local L = ShadowUF.L
 ShadowUF.dbRevision = 61
-ShadowUF.dbRevisionClassic = 4
+ShadowUF.dbRevisionClassic = 5
 ShadowUF.playerUnit = "player"
 ShadowUF.enabledUnits = {}
 ShadowUF.modules = {}
@@ -118,6 +118,26 @@ end
 function ShadowUF:CheckUpgrade()
 	local revisionClassic = self.db.profile.revisionClassic or (self.db.profile.revision and 1 or self.dbRevisionClassic)
 	local revision = self.db.profile.revision or self.dbRevision
+	if( revisionClassic <= 4 ) then
+		-- new resources
+		self.db.profile.powerColors.RUNES_BLOOD = {r = 0.95, g = 0.0, b = 0.08}
+		self.db.profile.powerColors.RUNES_FROST = {r = 0.0, g = 0.85, b = 1.0}
+		self.db.profile.powerColors.RUNES_UNHOLY = {r = 0.0, g = 1.0, b = 0.35}
+		self.db.profile.powerColors.RUNES_DEATH = {r = 0.69, g = 0.15, b = 1.0}
+
+		-- new bars
+		local config = self.db.profile.units
+		config.player.runeBar = {enabled = true, background = false, height = 0.40, order = 70}
+		local hasRuneText = false
+		for i, text in ipairs(config.player.text) do
+			if text and text.anchorTo == "$runeBar" and text == "[rune:timer]" then
+				hasRuneText = true
+			end
+		end
+		if not hasRuneText then
+			table.insert(config.player.text, {enabled = true, width = 1, name = L["Timer Text"], text = "[rune:timer]", anchorTo = "$runeBar", anchorPoint = "C", size = 0, x = 0, y = 0, default = true, block = true})
+		end
+	end
 	if( revisionClassic <= 4 or not self.db.profile.revisionClassic ) then
 		ShadowUF:LoadDefaultLayout(true)
 	end
