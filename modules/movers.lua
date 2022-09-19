@@ -78,6 +78,8 @@ local function createConfigEnv()
 		UnitIsAFK = function(unit) return false end,
 		UnitFactionGroup = function(unit) return _G.UnitFactionGroup("player") end,
 		UnitAffectingCombat = function() return true end,
+		UnitThreatSituation = function() return 0 end,
+		UnitDetailedThreatSituation = function() return nil end,
 		UnitCastingInfo = function(unit)
 			-- 1 -> 10: spell, displayName, icon, startTime, endTime, isTradeSkill, castID, notInterruptible, spellID
 			local data = unitConfig["UnitCastingInfo" .. unit] or {}
