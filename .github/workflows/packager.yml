@@ -6,7 +6,7 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ retail ]
     tags:
      - '**'
      - '!**classic**'
@@ -32,8 +32,12 @@ jobs:
           /home/runner/.luarocks/bin/luacheck . --no-color -q
 
       - name: Create Package
-        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
-          WOWI_API_TOKEN: ${{ secrets.WOWI_API_TOKEN }}
-          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+        run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -z
+
+      - name: Archive packaged addon
+        uses: actions/upload-artifact@v3
+        with:
+            name: ShadowedUnitFrames
+            path: |
+                .release/ShadowedUnitFrames
+                .release/ShadowedUF_Options
