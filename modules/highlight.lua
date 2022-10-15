@@ -158,6 +158,7 @@ function Highlight:Update(frame)
 		color = eliteColor
 	end
 
+	local alpha = ShadowUF.db.profile.units[frame.unitType].highlight.alpha
 	if( hasDebuff ) then
 		frame.highlight.center:SetVertexColor(color.r, color.g, color.b, alpha)
 		frame.highlight.center:Show()
@@ -166,9 +167,6 @@ function Highlight:Update(frame)
 	end
 
 	if( color ) then
-		local borderHeight = ShadowUF.db.profile.units[frame.unitType].highlight.size
-		local alpha = ShadowUF.db.profile.units[frame.unitType].highlight.alpha
-
 		frame.highlight.top:SetVertexColor(color.r, color.g, color.b, alpha)
 		frame.highlight.left:SetVertexColor(color.r, color.g, color.b, alpha)
 		frame.highlight.bottom:SetVertexColor(color.r, color.g, color.b, alpha)
