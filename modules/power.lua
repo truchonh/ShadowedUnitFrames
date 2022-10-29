@@ -47,8 +47,8 @@ function Power:UpdateColor(frame)
 	end
 
 	if( ShadowUF.db.profile.units[frame.unitType].powerBar.onlyTankRunic ) then
-		local _, _, playerClass = UnitClass(frame.unit)
-		ShadowUF.Layout:SetBarVisibility(frame, "powerBar", currentType == "RUNIC_POWER" and playerClass == 6)
+		local isBdk = currentType == "RUNIC_POWER" and UnitGroupRolesAssigned(frame.unit) == "TANK"
+		ShadowUF.Layout:SetBarVisibility(frame, "powerBar", isBdk)
 		if( currentType ~= "RUNIC_POWER" ) then return end
 	end
 
