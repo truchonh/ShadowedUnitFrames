@@ -943,11 +943,4 @@ L["Zone configuration units"] = "Zone configuration units"
 
 
 ShadowUF.L = L
---[==[@debug@
-ShadowUF.L = setmetatable(ShadowUF.L, {
-	__index = function(tbl, value)
-		rawset(tbl, value, value)
-		return value
-	end,
-})
---@end-debug@]==]
+
