@@ -4162,6 +4162,14 @@ local function loadUnitOptions()
 								desc = L["Hides the power bar unless the class has mana."],
 								hidden = function(info) return not ShadowUF.Units.headerUnits[info[2]] end,
 								arg = "powerBar.onlyMana",
+							},
+							onlyTankRunic = {
+								order = 7,
+								type = "toggle",
+								name = "Only runic power on bdk",
+								desc = "Hides the power bar unless it's a blood Death Knight.",
+								hidden = function(info) return not ShadowUF.Units.headerUnits[info[2]] end,
+								arg = "powerBar.onlyTankRunic",
 							}
 						},
 					},
