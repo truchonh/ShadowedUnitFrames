@@ -41,15 +41,13 @@ function Power:UpdateColor(frame)
 		frame.powerBar.currentType = powerMap[powerID] or "ENERGY"
 	end
 
-	if( ShadowUF.db.profile.units[frame.unitType].powerBar.onlyMana ) then
-		ShadowUF.Layout:SetBarVisibility(frame, "powerBar", currentType == "MANA")
-		if( currentType ~= "MANA" ) then return end
-	end
-
-	if( ShadowUF.db.profile.units[frame.unitType].powerBar.onlyTankRunic ) then
+	if(
+		ShadowUF.db.profile.units[frame.unitType].powerBar.onlyMana or
+		ShadowUF.db.profile.units[frame.unitType].powerBar.onlyTankRunic
+	) then
 		local isBdk = currentType == "RUNIC_POWER" and UnitGroupRolesAssigned(frame.unit) == "TANK"
-		ShadowUF.Layout:SetBarVisibility(frame, "powerBar", isBdk)
-		if( currentType ~= "RUNIC_POWER" ) then return end
+		ShadowUF.Layout:SetBarVisibility(frame, "powerBar", currentType == "MANA" or isBdk)
+		if( currentType ~= "MANA" and currentType ~= "RUNIC_POWER" ) then return end
 	end
 
 	local color
