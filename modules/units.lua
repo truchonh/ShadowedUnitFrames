@@ -805,6 +805,11 @@ function Units:SetHeaderAttributes(frame, type)
 	frame:SetAttribute("point", config.attribPoint)
 	frame:SetAttribute("sortMethod", config.sortMethod)
 	frame:SetAttribute("sortDir", config.sortOrder)
+	-- sort by role here
+	if( config.sortGroupByRole ) then
+		frame:SetAttribute("groupingOrder", "NONE,DAMAGER,HEALER,TANK")
+		frame:SetAttribute("groupBy", "ASSIGNEDROLE")
+	end
 
 	frame:SetAttribute("xOffset", config.offset * xMod)
 	frame:SetAttribute("yOffset", config.offset * yMod)

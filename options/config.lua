@@ -3912,6 +3912,13 @@ local function loadUnitOptions()
 								arg = "sortOrder",
 								hidden = false,
 							},
+							sortGroupByRole = {
+								order = 3,
+								type = "toggle",
+								name = "Sort by assigned role",
+								arg = "sortGroupByRole",
+								hidden = function(info) return info[2] ~= "party" end,
+							},
 						},
 					},
 					raid = {
