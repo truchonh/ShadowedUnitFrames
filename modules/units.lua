@@ -1496,6 +1496,7 @@ local curableSpells = {
 	["MONK"] = {[115450] = {"Poison", "Disease", "Magic"}, [218164] = {"Poison", "Disease"}},
 	["MAGE"] = {[475] = {"Curse"}},
 	["WARLOCK"] = {[89808] = {"Magic"}},
+	["EVOKER"] = {[1467] = {"Poison"}, [1468] = {"Poison", "Magic"}},
 }
 
 curableSpells = curableSpells[playerClass]
