@@ -807,7 +807,7 @@ function Units:SetHeaderAttributes(frame, type)
 	frame:SetAttribute("sortDir", config.sortOrder)
 	-- sort by role here
 	if( config.sortGroupByRole ) then
-		frame:SetAttribute("groupingOrder", "NONE,DAMAGER,HEALER,TANK")
+		frame:SetAttribute("groupingOrder", "HEALER,TANK,DAMAGER,NONE")
 		frame:SetAttribute("groupBy", "ASSIGNEDROLE")
 	end
 
