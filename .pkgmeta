@@ -18,8 +18,6 @@ externals:
         url: https://repos.curseforge.com/wow/libclassicdurations
     libs/LibClassicCasterino:
         url: https://github.com/rgd87/LibClassicCasterino.git
-    libs/LibHealComm-4.0:
-        url: https://repos.wowace.com/wow/libhealcomm-4-0
     options/libs/AceConfig-3.0:
         url: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
     options/libs/AceDBOptions-3.0:
