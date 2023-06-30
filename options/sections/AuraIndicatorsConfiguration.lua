@@ -1025,6 +1025,7 @@ function Config:loadAuraIndicatorsOptions()
 		order = 1,
 		type = "group",
 		name = function(info)
+			if( not LOCALIZED_CLASS_NAMES_MALE[info[#(info)]] ) then return info[#(info)] end
 			return ShadowUF:Hex(ShadowUF.db.profile.classColors[info[#(info)]]) .. LOCALIZED_CLASS_NAMES_MALE[info[#(info)]] .. "|r"
 		end,
 		args = {},
@@ -1042,7 +1043,7 @@ function Config:loadAuraIndicatorsOptions()
 			if( not aura ) then	return auraMap[info[#(info)]] end
 
 			local name, _, icon = GetSpellInfo(aura)
-			if( not name ) then return name end
+			if( not name ) then return string.format("Unknown (#%i)", aura) end
 
 			return "|T" .. icon .. ":18:18:0:0|t " .. name
 		end,
