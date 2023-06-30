@@ -1881,12 +1881,20 @@ function Config:loadUnitOptions()
 						hidden = function(info)
 							local unit = info[2]
 							if( unit == "global" ) then
-								return not Config.globalConfig.totemBar and not Config.globalConfig.druidBar and not Config.globalConfig.xpBar
+								return not Config.globalConfig.runeBar and not Config.globalConfig.totemBar and not Config.globalConfig.druidBar and not Config.globalConfig.xpBar
 							else
 								return unit ~= "player" and unit ~= "pet"
 							end
 						end,
 						args = {
+							runeBar = {
+								order = 1,
+								type = "toggle",
+								name = string.format(L["Enable %s"], L["Rune bar"]),
+								desc = L["Adds rune bars and timers before runes refresh to the player frame."],
+								hidden = Config.hideRestrictedOption,
+								arg = "runeBar.enabled",
+							},
 							druidBar = {
 								order = 3,
 								type = "toggle",

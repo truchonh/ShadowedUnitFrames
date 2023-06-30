@@ -1,6 +1,6 @@
-## Interface: 20502
-## Interface-Classic: 11307
-## Interface-BCC: 20502
+## Interface: 30401
+## Interface-Classic: 11403
+## Interface-BCC: 20504
 ## Title: Shadowed Unit Frames
 ## Notes: Moooooooooooooooooo
 ## Author: Shadowed
@@ -66,6 +66,7 @@ modules\combopoints.lua
 modules\range.lua
 modules\empty.lua
 modules\druid.lua
+modules\runes.lua
 #@do-not-package@
 options\config.lua
 options\sections\AuraIndicatorsConfiguration.lua
