@@ -1021,7 +1021,7 @@ function Config:loadUnitOptions()
 								name = L["Disable vehicle swap"],
 								desc = L["Disables the unit frame from turning into a vehicle when the player enters one."],
 								set = function(info, value)
-									setUnit(info, value)
+									Config.setUnit(info, value)
 									local unit = info[2]
 									if( unit == "player" ) then
 										if( ShadowUF.Units.unitFrames.pet ) then

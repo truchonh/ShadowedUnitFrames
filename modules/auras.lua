@@ -236,10 +236,10 @@ local function hideTooltip(self)
 end
 
 local function cancelAura(self, mouse)
-	if( 
-		mouse ~= "RightButton" 
-		or ( not UnitIsUnit(self.parent.unit, "player") and not UnitIsUnit(self.parent.unit, "vehicle") ) 
-		or InCombatLockdown() or self.filter == "TEMP" 
+	if(
+		mouse ~= "RightButton"
+		or ( not UnitIsUnit(self.parent.unit, "player") and not UnitIsUnit(self.parent.unit, "vehicle") )
+		or InCombatLockdown() or self.filter == "TEMP"
 	) then
 		return
 	end
@@ -491,7 +491,7 @@ tempEnchantScan = function(self, elapsed)
 		Auras:Update(self.parent)
 		return
 	end
-	
+
 	timeElapsed = timeElapsed + elapsed
 	if( timeElapsed < 0.50 ) then return end
 	timeElapsed = timeElapsed - 0.50

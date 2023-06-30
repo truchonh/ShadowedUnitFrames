@@ -2,6 +2,8 @@ local Tags = {afkStatus = {}, offlineStatus = {}, customEvents = {}, powerMap = 
 local tagPool, functionPool, temp, regFontStrings, powerMap = {}, {}, {}, {}, Tags.powerMap
 local L = ShadowUF.L
 
+local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
+
 ShadowUF.Tags = Tags
 
 -- Map the numeric index to the string
