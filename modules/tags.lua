@@ -792,7 +792,17 @@ Tags.defaultTags = {
 			return ShadowUF.L["Offline"]
 		end
 	end]],
-	["cpoints"] = [[function(unit, unitOwner)
+	["cpoints"] = WoWWrath and [[function(unit, unitOwner)
+		if( UnitHasVehicleUI("player") and UnitHasVehiclePlayerFrameUI("player") ) then
+			local points = GetComboPoints("vehicle")
+			if( points == 0 ) then
+				points = GetComboPoints("vehicle", "vehicle")
+			end
+			return points
+		else
+			return UnitPower("player", Enum.PowerType.ComboPoints)
+		end
+	end]] or [[function(unit, unitOwner)
 		return UnitPower("player", Enum.PowerType.ComboPoints)
 	end]],
 	["smartlevel"] = [[function(unit, unitOwner)
